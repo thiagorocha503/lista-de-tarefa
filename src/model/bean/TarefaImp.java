@@ -5,7 +5,11 @@
  */
 package model.bean;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+import util.exception.DateConversionException;
+import util.exception.TarefaDateException;
+import util.exception.TarefaPrioridadeException;
 
 /**
  *
@@ -13,12 +17,14 @@ import java.util.ArrayList;
  */
 public interface TarefaImp {
     
-    void insert(Tarefa task);
-    ArrayList<Tarefa> findAll();
-    ArrayList<Tarefa> findByTitle(String titulo);
+    void insert(Tarefa task) throws SQLException;
+    ArrayList<Tarefa> findAll() throws SQLException;
+    ArrayList<Tarefa> findByTitle(String titulo)throws SQLException, TarefaDateException, DateConversionException;
+    ArrayList<Tarefa> findAllNotDone() throws SQLException,  TarefaDateException, DateConversionException,
+            TarefaPrioridadeException;
     Tarefa getById(int id);
-    void update(Tarefa task);
-    void removeById(int id);
+    void update(Tarefa task) throws SQLException;
+    void removeById(int id) throws SQLException;
     
     
     
