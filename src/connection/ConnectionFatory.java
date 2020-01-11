@@ -75,7 +75,7 @@ public class ConnectionFatory {
     }
     
     public static void initilazeDataBase(Connection conn){
-        String sql = "CREATE TABLE tarefa (" +
+        String sql = "CREATE TABLE IF NOT EXISTS tarefa (" +
                     "    id           INTEGER PRIMARY KEY AUTOINCREMENT" +
                     "                         NOT NULL," +
                     "    title        TEXT    NOT NULL," +
