@@ -84,4 +84,32 @@ public class DateConversion {
             throw  new DateConversionException("Data inválida ["+data+"]: "+ex);
         }
     }
+    
+    public static String calendarToDateFormt(Calendar calendar){
+        String day, month, year;
+        //Day
+        if (calendar.get(Calendar.DAY_OF_MONTH) < 10){
+            day= "0"+String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
+        } else {
+            day = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
+        }
+        //Month
+        if (calendar.get(Calendar.MONTH)+1 < 10){// January = 0, Februray = 1 [...]
+            month = "0"+String.valueOf(calendar.get(Calendar.MONTH)+1);
+        } else {
+            month = String.valueOf(calendar.get(Calendar.MONTH)+1);
+        }
+        //year
+        if (calendar.get(Calendar.YEAR)> 0 && calendar.get(Calendar.YEAR)<10){
+            year = "000"+String.valueOf(calendar.get(Calendar.YEAR));
+        } else if (calendar.get(Calendar.YEAR)>= 10 && calendar.get(Calendar.YEAR)<100){
+            year = "00"+String.valueOf(calendar.get(Calendar.YEAR));
+        } else if(calendar.get(Calendar.YEAR)>= 100 && calendar.get(Calendar.YEAR)<1000){
+            year = "0"+String.valueOf(calendar.get(Calendar.YEAR));
+        }else {
+            year = String.valueOf(calendar.get(Calendar.YEAR));
+        }
+        return day+"/"+month+"/"+year;
+
+    }
 }
