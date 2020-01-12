@@ -179,5 +179,81 @@ public class DateConversionTest extends TestCase {
         }
         
     }
+    
+    
+    @Test
+    public void testCalendaToDateFormtDay() {
+        Calendar data = Calendar.getInstance();
+        data.set(Calendar.YEAR, 2020);
+        data.set(Calendar.MONTH, 0);//Janeiro = 0, fevereiro = 1 [...]
+        //Dias de 1 a 9
+        for(int day=1;day<10; day++){
+            data.set(Calendar.DAY_OF_MONTH, day);
+            assertEquals(DateConversion.calendarToDateFormt(data), "0"+String.valueOf(day)+"/01/2020");
+        }
+        //Dias de 10 a 31
+        for (int day=10;day<32;day++){
+            data.set(Calendar.DAY_OF_MONTH, day);
+            assertEquals(DateConversion.calendarToDateFormt(data), String.valueOf(day)+"/01/2020");
+        }assertEquals( 2+2, 4);
+    }
+    
+    @Test
+    public void testCalendaToDateFormtMonth() {
+        Calendar data = Calendar.getInstance();
+        data.set(Calendar.YEAR, 2020);
+        data.set(Calendar.DAY_OF_MONTH, 1); 
+        // Meses de 1 a 9 OBS: Janeiro = 0, fevereiro = 1 [...]
+        for (int month=0; month <=8;month++){
+            data.set(Calendar.MONTH, month);
+            assertEquals(DateConversion.calendarToDateFormt(data), "01/"+"0"+String.valueOf(month +1)+"/2020");
+        }
+        // Meses de 10 1a 12
+        data.set(Calendar.MONTH, 9);
+        assertEquals(DateConversion.calendarToDateFormt(data), "01/10/2020");
+        data.set(Calendar.MONTH, 10);
+        assertEquals(DateConversion.calendarToDateFormt(data), "01/11/2020");
+        data.set(Calendar.MONTH, 11);
+        assertEquals(DateConversion.calendarToDateFormt(data), "01/12/2020");
+        
+    }
+    
+    @Test
+    public void testCalendaToDateFormtYear() {
+        // teste anos
+        Calendar data = Calendar.getInstance();
+        data.set(Calendar.DAY_OF_MONTH, 1);
+        data.set(Calendar.MONTH, 1); //Janeiro = 0, fevereiro = 1 [...]
+        
+        // ano de 1 a 9
+        for (int i = 1; i < 10; i++){
+            data.set(Calendar.YEAR, i);
+            assertEquals(DateConversion.calendarToDateFormt(data) , "01/02/"+ "000"+String.valueOf(i));
+        }
+        // ano de 10 a 99
+        for (int i = 10; i < 100; i++){
+            data.set(Calendar.YEAR, i);
+            assertEquals(DateConversion.calendarToDateFormt(data) , "01/02/"+ "00"+String.valueOf(i));
+        }
+        // anos entre 100 e 999
+        data.set(Calendar.YEAR, 100);
+        assertEquals(DateConversion.calendarToDateFormt(data) , "01/02/0100" );
+        data.set(Calendar.YEAR, 200);
+        assertEquals(DateConversion.calendarToDateFormt(data) , "01/02/0200" );
+        data.set(Calendar.YEAR, 300);
+        assertEquals(DateConversion.calendarToDateFormt(data) , "01/02/0300" );
+        data.set(Calendar.YEAR, 500);
+        assertEquals(DateConversion.calendarToDateFormt(data) , "01/02/0500" );
+        data.set(Calendar.YEAR, 999);
+        assertEquals(DateConversion.calendarToDateFormt(data) , "01/02/0999" );
+        // anos mais de 1000
+        data.set(Calendar.YEAR, 1000);
+        assertEquals(DateConversion.calendarToDateFormt(data) , "01/02/1000" );
+        data.set(Calendar.YEAR, 2000);
+        assertEquals(DateConversion.calendarToDateFormt(data) , "01/02/2000" );
+        
+        
+        
+    }
 
 }
