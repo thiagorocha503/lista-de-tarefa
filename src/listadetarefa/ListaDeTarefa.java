@@ -5,6 +5,8 @@
  */
 package listadetarefa;
 
+import view.JanelaListagem;
+
 /**
  *
  * @author thiago
@@ -16,6 +18,18 @@ public class ListaDeTarefa {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(JanelaListagem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        JanelaListagem winListagem = new JanelaListagem();
+        winListagem.setVisible(true);
     }
     
 }
