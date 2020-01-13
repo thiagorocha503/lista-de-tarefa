@@ -5,6 +5,7 @@
  */
 package view;
 
+import controller.TarefaController;
 import model.tabelModel.TarefaTabelModel;
 
 /**
@@ -16,9 +17,14 @@ public class JanelaListagem extends javax.swing.JFrame {
     /**
      * Creates new form JanelaListagem
      */
+    private TarefaController controller;
+    
     public JanelaListagem() {
         initComponents();
-        this.tbTarefas.setModel(new TarefaTabelModel());
+        TarefaTabelModel tarefaTabelModel = new TarefaTabelModel();
+        this.tbTarefas.setModel(tarefaTabelModel);
+        this.controller = new TarefaController(tarefaTabelModel);
+        
     }
 
     /**
@@ -84,6 +90,11 @@ public class JanelaListagem extends javax.swing.JFrame {
         scrlTabel.setViewportView(tbTarefas);
 
         btnNew.setText("Novo");
+        btnNew.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewActionPerformed(evt);
+            }
+        });
 
         btnEdit.setText("Alterar");
 
@@ -145,6 +156,10 @@ public class JanelaListagem extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnNewActionPerformed
 
     /**
      * @param args the command line arguments
