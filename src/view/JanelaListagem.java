@@ -6,6 +6,7 @@
 package view;
 
 import controller.TarefaController;
+import java.awt.event.KeyEvent;
 import model.tabelModel.TarefaTabelModel;
 
 /**
@@ -17,13 +18,18 @@ public class JanelaListagem extends javax.swing.JFrame {
     /**
      * Creates new form JanelaListagem
      */
-    private TarefaController controller;
+    private final TarefaController controller;
     
     public JanelaListagem() {
         initComponents();
         TarefaTabelModel tarefaTabelModel = new TarefaTabelModel();
         this.tbTarefas.setModel(tarefaTabelModel);
         this.controller = new TarefaController(tarefaTabelModel);
+        
+    }
+    
+    public void initilazeTable(){
+           this.controller.findAll();
         
     }
 
@@ -53,7 +59,18 @@ public class JanelaListagem extends javax.swing.JFrame {
 
         panelBusca.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
+        txtBusca.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtBuscaKeyPressed(evt);
+            }
+        });
+
         btnPesquisar.setText("Buscar");
+        btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPesquisarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelBuscaLayout = new javax.swing.GroupLayout(panelBusca);
         panelBusca.setLayout(panelBuscaLayout);
@@ -160,6 +177,26 @@ public class JanelaListagem extends javax.swing.JFrame {
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnNewActionPerformed
+    
+    private void buscar(){
+        if(this.txtBusca.getText().equals("")){
+            this.controller.findAll();
+        } else {
+            this.controller.findByTitle(this.txtBusca.getText());
+        }
+    }
+    
+    private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
+        // TODO add your handling code here:
+        this.buscar();
+    }//GEN-LAST:event_btnPesquisarActionPerformed
+
+    private void txtBuscaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscaKeyPressed
+        // TODO add your handling code here:
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            this.buscar();
+        }
+    }//GEN-LAST:event_txtBuscaKeyPressed
 
     /**
      * @param args the command line arguments

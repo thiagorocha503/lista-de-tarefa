@@ -5,6 +5,7 @@
  */
 package listadetarefa;
 
+import javax.swing.JOptionPane;
 import view.JanelaListagem;
 
 /**
@@ -28,8 +29,16 @@ public class ListaDeTarefa {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(JanelaListagem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        JanelaListagem winListagem = new JanelaListagem();
-        winListagem.setVisible(true);
+        JanelaListagem winListagem;
+        winListagem = new JanelaListagem();
+        try{
+            winListagem.initilazeTable();
+            winListagem.setVisible(true);
+        } catch(Exception ex){
+            JOptionPane.showMessageDialog(null,"Erro inesperado: "+ex,"Erro",JOptionPane.ERROR_MESSAGE);
+            winListagem.dispose();
+        }
+        
     }
     
 }

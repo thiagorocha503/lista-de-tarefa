@@ -78,7 +78,23 @@ public class TarefaController {
             JOptionPane.showMessageDialog(null, "Erro: "+ex,"Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
-        
+     
+    public void findByTitle(String titulo){
+        ArrayList<Tarefa> tasks;
+        try{
+            TarefaDAO dao = new TarefaDAO();
+            tasks = dao.findByTitle(titulo);
+            this.tarefaTabelModel.updateTable(tasks);
+        } catch (SQLException ex) {
+            Logger.getLogger(TarefaController.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Erro: "+ex,"Erro", JOptionPane.ERROR_MESSAGE);
+        } catch (TarefaDateException ex) {
+            Logger.getLogger(TarefaController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DateConversionException ex) {
+            Logger.getLogger(TarefaController.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Erro: "+ex,"Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }
     
     public int getPrioridadeId(String text){
         switch(text){
