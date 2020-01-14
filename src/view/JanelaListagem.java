@@ -176,6 +176,8 @@ public class JanelaListagem extends javax.swing.JFrame {
 
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
         // TODO add your handling code here:
+        DialogNovaTarefa dialogNovo = new DialogNovaTarefa(this, true, this.controller);
+        dialogNovo.setVisible(true);
     }//GEN-LAST:event_btnNewActionPerformed
     
     private void buscar(){

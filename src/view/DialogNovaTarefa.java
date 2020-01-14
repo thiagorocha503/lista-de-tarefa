@@ -5,22 +5,29 @@
  */
 package view;
 
+import controller.TarefaController;
+import javax.swing.JOptionPane;
+import model.tabelModel.TarefaTabelModel;
+
 /**
  *
  * @author thiago
  */
 public class DialogNovaTarefa extends javax.swing.JDialog {
 
+    private final TarefaController controller;
+
     /**
      * Creates new form DialogNovaTarefa
      * @param parent
      * @param modal
      */
-    public DialogNovaTarefa(java.awt.Frame parent, boolean modal) {
+    public DialogNovaTarefa(java.awt.Frame parent, boolean modal, TarefaController controller) {
         super(parent, modal);
+        this.controller = controller;
         initComponents();
     }
-
+ 
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -138,8 +145,18 @@ public class DialogNovaTarefa extends javax.swing.JDialog {
         );
 
         btnSalvar.setText("Salvar");
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelContaiinerLayout = new javax.swing.GroupLayout(panelContaiiner);
         panelContaiiner.setLayout(panelContaiinerLayout);
@@ -185,6 +202,47 @@ public class DialogNovaTarefa extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        // TODO add your handling code here:
+        if (this.isFieldEmpty()){
+            JOptionPane.showMessageDialog(null,"Preencha todos os campos","Campo em branco",JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        String titulo=this.txtNome.getText(), descricao=this.txtDescricao.getText(); 
+        String dataInicio= this.txtDataInicio.getText(), dataTermino= this.txtDataTermino.getText();
+        String prioridade=this.comboBoxPrioridade.getSelectedItem().toString().toUpperCase();
+        System.err.println(">> "+prioridade);
+        this.controller.inserir(titulo, descricao, dataInicio, dataTermino, prioridade, false);
+        this.controller.findAll();
+    }//GEN-LAST:event_btnSalvarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
+    
+    public void cleanFiled(){
+        this.txtNome.setText("");
+        this.txtDescricao.setText("");
+        this.txtDataInicio.setText("");
+        this.txtDataTermino.setText("");
+        this.comboBoxPrioridade.setSelectedIndex(0);
+    }
+    
+    public boolean isFieldEmpty(){
+        Boolean[] is_full = {this.txtNome.getText().equals(""),
+        this.txtDescricao.getText().equals(""),
+        this.txtDataInicio.getText().equals("  /  /    "),
+        this.txtDataTermino.getText().equals("  /  /    ")
+                };
+        for (Boolean isEmpty : is_full) {
+            if(isEmpty){
+              return true;  
+            }
+        }      
+        return false;
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -210,7 +268,7 @@ public class DialogNovaTarefa extends javax.swing.JDialog {
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(() -> {
-            DialogNovaTarefa dialog = new DialogNovaTarefa(new javax.swing.JFrame(), true);
+            DialogNovaTarefa dialog = new DialogNovaTarefa(new javax.swing.JFrame(), true, new TarefaController(new TarefaTabelModel()));
             dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                 @Override
                 public void windowClosing(java.awt.event.WindowEvent e) {
