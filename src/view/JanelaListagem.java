@@ -115,6 +115,11 @@ public class JanelaListagem extends javax.swing.JFrame {
         });
 
         btnEdit.setText("Alterar");
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
 
         btnDelete.setText("Excluir");
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -217,6 +222,17 @@ public class JanelaListagem extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        // TODO add your handling code here:
+        if(this.tbTarefas.getSelectedRow() == -1){
+            JOptionPane.showMessageDialog(null, "Selecione um linha");
+            return;
+        }
+        int row = this.tbTarefas.getSelectedRow();    
+        DialogAlterarTarefa dialogEdit = new DialogAlterarTarefa(this, true, this.controller, row, this.tbTarefas);
+        dialogEdit.setVisible(true);
+    }//GEN-LAST:event_btnEditActionPerformed
 
     /**
      * @param args the command line arguments

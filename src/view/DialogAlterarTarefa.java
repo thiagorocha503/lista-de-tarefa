@@ -5,22 +5,65 @@
  */
 package view;
 
+import controller.TarefaController;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import model.tabelModel.TarefaTabelModel;
+
 /**
  *
  * @author thiago
  */
 public class DialogAlterarTarefa extends javax.swing.JDialog {
 
+    private final TarefaController controller;
+    private final int row;
+    private final JTable tabela;
+    private final int id;
+
     /**
      * Creates new form DialogAlterarTarefa
      * @param parent
      * @param modal
+     * @param controller
+     * @param row
+     * @param tabela
      */
-    public DialogAlterarTarefa(java.awt.Frame parent, boolean modal) {
+    public DialogAlterarTarefa(java.awt.Frame parent, boolean modal, TarefaController controller, int row, JTable tabela) {
         super(parent, modal);
+        this.controller = controller;
+        this.row = row;
+        this.tabela = tabela;
+        this.id = (int)tabela.getValueAt(row, 0);
         initComponents();
+        this.preencheCampos();
     }
-
+    
+    
+    private void preencheCampos(){
+        this.txtNome.setText(this.tabela.getValueAt(row, 1).toString());
+        this.txtDescricao.setText(this.tabela.getValueAt(row, 2).toString());
+        this.txtDataInicio.setText(this.tabela.getValueAt(row, 3).toString());
+        this.txtDataTermino.setText(this.tabela.getValueAt(row, 4).toString());
+        this.checkDone.setSelected((boolean) this.tabela.getValueAt(row, 6));
+        String prioridade = this.tabela.getValueAt(row, 5).toString();
+        switch (prioridade) {
+            case "NORMAL":
+                this.comboBoxPrioridade.setSelectedIndex(0);
+                break;
+            case "BAIXA":
+                this.comboBoxPrioridade.setSelectedIndex(1);      
+                break;
+            case "ALTA":
+                this.comboBoxPrioridade.setSelectedIndex(2);
+                break;
+            default:
+                break;
+        }
+        
+        
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -44,7 +87,7 @@ public class DialogAlterarTarefa extends javax.swing.JDialog {
         lblPrioridade = new javax.swing.JLabel();
         comboBoxPrioridade = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        checkDone = new javax.swing.JCheckBox();
         btnSalvar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
 
@@ -104,7 +147,7 @@ public class DialogAlterarTarefa extends javax.swing.JDialog {
                             .addGroup(panelFormLayout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jCheckBox1)))
+                                .addComponent(checkDone)))
                         .addGap(0, 65, Short.MAX_VALUE))
                     .addGroup(panelFormLayout.createSequentialGroup()
                         .addGroup(panelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -146,12 +189,22 @@ public class DialogAlterarTarefa extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jCheckBox1)))
+                    .addComponent(checkDone)))
         );
 
         btnSalvar.setText("Alterar");
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelContaiinerLayout = new javax.swing.GroupLayout(panelContaiiner);
         panelContaiiner.setLayout(panelContaiinerLayout);
@@ -197,6 +250,27 @@ public class DialogAlterarTarefa extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        // TODO add your handling code here:
+        if (this.isFieldEmpty()){
+            JOptionPane.showMessageDialog(null, "Prrencha todos os campos");
+            return;
+        }
+        String titulo = this.txtNome.getText();
+        String descricao = this.txtDescricao.getText();
+        String dataInicio = this.txtDataInicio.getText();
+        String dataTermino = this.txtDataTermino.getText();
+        String prioridade = this.comboBoxPrioridade.getSelectedItem().toString();
+        boolean done = this.checkDone.isSelected();
+        this.controller.update(this.id, titulo, descricao, dataInicio, dataTermino, prioridade.toUpperCase(), done);
+        
+    }//GEN-LAST:event_btnSalvarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -222,7 +296,7 @@ public class DialogAlterarTarefa extends javax.swing.JDialog {
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(() -> {
-            DialogAlterarTarefa dialog = new DialogAlterarTarefa(new javax.swing.JFrame(), true);
+            DialogAlterarTarefa dialog = new DialogAlterarTarefa(new javax.swing.JFrame(), true, new TarefaController(new TarefaTabelModel()), 0, new JTable());
             dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                 @Override
                 public void windowClosing(java.awt.event.WindowEvent e) {
@@ -232,12 +306,28 @@ public class DialogAlterarTarefa extends javax.swing.JDialog {
             dialog.setVisible(true);
         });
     }
+    
+
+    public boolean isFieldEmpty(){
+        Boolean[] is_full = {this.txtNome.getText().equals(""),
+        this.txtDescricao.getText().equals(""),
+        this.txtDataInicio.getText().equals("  /  /    "),
+        this.txtDataTermino.getText().equals("  /  /    ")
+                };
+        for (Boolean isEmpty : is_full) {
+            if(isEmpty){
+              return true;  
+            }
+        }      
+        return false;
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnSalvar;
+    private javax.swing.JCheckBox checkDone;
     private javax.swing.JComboBox<String> comboBoxPrioridade;
-    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblDataInicio;
     private javax.swing.JLabel lblDataTermino;
