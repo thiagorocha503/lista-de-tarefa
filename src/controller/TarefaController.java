@@ -43,6 +43,7 @@ public class TarefaController {
             task.setDone(done);
             TarefaDAO dao = new TarefaDAO();
             dao.insert(task);
+            this.findAll();
             JOptionPane.showMessageDialog(null, "Tarefa adicionada com sucesso","Adição de tarefa",JOptionPane.INFORMATION_MESSAGE);
         } catch (DateConversionException ex) {
             Logger.getLogger(TarefaController.class.getName()).log(Level.SEVERE, null, ex);
@@ -90,9 +91,12 @@ public class TarefaController {
             JOptionPane.showMessageDialog(null, "Erro: "+ex,"Erro", JOptionPane.ERROR_MESSAGE);
         } catch (TarefaDateException ex) {
             Logger.getLogger(TarefaController.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Data de termino menor que de inicio "+ex,"Erro", JOptionPane.ERROR_MESSAGE);
         } catch (DateConversionException ex) {
             Logger.getLogger(TarefaController.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, "Erro: "+ex,"Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Data inválida: "+ex,"Erro", JOptionPane.ERROR_MESSAGE);
+        } catch(Exception ex){
+            JOptionPane.showMessageDialog(null,"Erro inesperado: "+ex,"Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -122,4 +126,45 @@ public class TarefaController {
             this.findAll();
         }
     }
+    
+     public void update(int id, String titulo, String descricao, String dataInicio,
+                String dataTermino, String prioridade, boolean done
+            ){
+        Tarefa task = new Tarefa();
+        task.setId(id);
+        task.setTitle(titulo);
+        task.setDescription(descricao);
+        try {
+            task.setDataInicio(DateConversion.dateFormtToCalendar(dataInicio));
+            task.setDataTermino(DateConversion.dateFormtToCalendar(dataTermino));
+            task.setPrioridade(getPrioridadeId(prioridade));
+            task.setDone(done);
+            TarefaDAO dao = new TarefaDAO();
+            dao.update(task);
+            this.findAll();
+            JOptionPane.showMessageDialog(null, "Tarefa atualizada com sucesso","Adição de tarefa",JOptionPane.INFORMATION_MESSAGE);
+        } catch (DateConversionException ex) {
+            Logger.getLogger(TarefaController.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null,"Data inválida: "+ ex,"Conversão de dados", JOptionPane.ERROR_MESSAGE);
+        } catch (TarefaDateException ex) {
+            Logger.getLogger(TarefaController.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Datas de termino menor que data de inicio", "Datas inválida", JOptionPane.ERROR_MESSAGE);
+        } catch (NullPointerException ex) {
+            Logger.getLogger(TarefaController.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Erro", "Erro: "+ex, JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+            Logger.getLogger(TarefaController.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Banco de dados", "Erro: "+ex, JOptionPane.ERROR_MESSAGE);
+        } catch (TarefaPrioridadeException ex) {
+            Logger.getLogger(TarefaController.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Prioridade inválida", "Prioridade inserida inválida", JOptionPane.ERROR_MESSAGE);
+        } catch(Exception ex){
+            Logger.getLogger(TarefaController.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Erro", "Erro inesperado: "+ex,JOptionPane.ERROR_MESSAGE);
+        }
+        
+        
+    }
+        
+    
 }
