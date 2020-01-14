@@ -47,7 +47,7 @@ public class TarefaController {
             JOptionPane.showMessageDialog(null, "Tarefa adicionada com sucesso","Adição de tarefa",JOptionPane.INFORMATION_MESSAGE);
         } catch (DateConversionException ex) {
             Logger.getLogger(TarefaController.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null,"Erro na conveção de datas"+ ex,"Conversão de dados", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Data inválida: "+ ex.getDataInvalida(),"Conversão de dados", JOptionPane.ERROR_MESSAGE);
         } catch (TarefaDateException ex) {
             Logger.getLogger(TarefaController.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "Datas de termino menor que data de inicio", "Datas inválida", JOptionPane.ERROR_MESSAGE);
@@ -94,7 +94,7 @@ public class TarefaController {
             JOptionPane.showMessageDialog(null, "Data de termino menor que de inicio "+ex,"Erro", JOptionPane.ERROR_MESSAGE);
         } catch (DateConversionException ex) {
             Logger.getLogger(TarefaController.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, "Data inválida: "+ex,"Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Data inválida: "+ex.getDataInvalida(),"Erro", JOptionPane.ERROR_MESSAGE);
         } catch(Exception ex){
             JOptionPane.showMessageDialog(null,"Erro inesperado: "+ex,"Erro", JOptionPane.ERROR_MESSAGE);
         }
@@ -145,7 +145,7 @@ public class TarefaController {
             JOptionPane.showMessageDialog(null, "Tarefa atualizada com sucesso","Adição de tarefa",JOptionPane.INFORMATION_MESSAGE);
         } catch (DateConversionException ex) {
             Logger.getLogger(TarefaController.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null,"Data inválida: "+ ex,"Conversão de dados", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Data inválida: "+ ex.getDataInvalida(),"Conversão de dados", JOptionPane.ERROR_MESSAGE);
         } catch (TarefaDateException ex) {
             Logger.getLogger(TarefaController.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "Datas de termino menor que data de inicio", "Datas inválida", JOptionPane.ERROR_MESSAGE);

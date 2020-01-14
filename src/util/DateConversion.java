@@ -59,7 +59,7 @@ public class DateConversion {
             calendar.set(Calendar.YEAR, year);
             return calendar;
         } catch( ParseException | ArrayIndexOutOfBoundsException ex){
-            throw  new DateConversionException("Data inválida ["+date+"]: "+ex);
+            throw  new DateConversionException(date);
         }
         
     }
@@ -81,7 +81,7 @@ public class DateConversion {
             calendar.set(Calendar.YEAR, year);
             return calendar;
         } catch( ParseException | ArrayIndexOutOfBoundsException ex){
-            throw  new DateConversionException("Data inválida ["+data+"]: "+ex);
+            throw  new DateConversionException(data);
         }
     }
     
