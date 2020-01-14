@@ -7,6 +7,7 @@ package view;
 
 import controller.TarefaController;
 import java.awt.event.KeyEvent;
+import javax.swing.JOptionPane;
 import model.tabelModel.TarefaTabelModel;
 
 /**
@@ -116,6 +117,11 @@ public class JanelaListagem extends javax.swing.JFrame {
         btnEdit.setText("Alterar");
 
         btnDelete.setText("Excluir");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         btnExit.setText("Sair");
 
@@ -199,6 +205,18 @@ public class JanelaListagem extends javax.swing.JFrame {
             this.buscar();
         }
     }//GEN-LAST:event_txtBuscaKeyPressed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        // TODO add your handling code here:
+        if(this.tbTarefas.getSelectedRow() == -1){
+            JOptionPane.showMessageDialog(null, "Selecione um linha da tabela");
+            return;
+        }
+        if(JOptionPane.showConfirmDialog(null, "Deseja realmente remover a tarefa selecionada?", "Remoção", JOptionPane.YES_NO_OPTION)==0){
+            this.controller.remover(this.tbTarefas.getSelectedRow());
+        }
+        
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
     /**
      * @param args the command line arguments

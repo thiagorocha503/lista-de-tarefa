@@ -108,4 +108,18 @@ public class TarefaController {
                 throw new RuntimeException("Prioridade text inválido");
         }
     }
+    
+    public void remover(int row){
+        TarefaDAO dao = new TarefaDAO();
+        try {
+            int id = Integer.parseInt(this.tarefaTabelModel.getValueAt(row, 0).toString());
+            dao.removeById(id);
+            JOptionPane.showMessageDialog(null, "Tarefa removida com sucesso");
+        } catch (SQLException ex) {
+            Logger.getLogger(TarefaController.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null,"Erro ao excluir", "Erro", JOptionPane.ERROR_MESSAGE);
+        } finally{
+            this.findAll();
+        }
+    }
 }
