@@ -35,7 +35,7 @@ public class TarefaController implements Observer{
     }
     
     public void inserir(String titulo, String descricao, String dataInicio,
-                String dataTermino, String prioridade, boolean done
+                String dataTermino, int prioridade, boolean done
             ){
         Tarefa task = new Tarefa();
         task.setTitle(titulo);
@@ -43,7 +43,7 @@ public class TarefaController implements Observer{
         try {
             task.setDataInicio(DateConversion.dateFormtToCalendar(dataInicio));
             task.setDataTermino(DateConversion.dateFormtToCalendar(dataTermino));
-            task.setPrioridade(getPrioridadeId(prioridade));
+            task.setPrioridade(prioridade);
             task.setDone(done);
             TarefaDAO dao = new TarefaDAO();
             dao.insert(task);
@@ -104,18 +104,7 @@ public class TarefaController implements Observer{
         }
     }
     
-    public int getPrioridadeId(String text){
-        switch(text){
-            case "ALTA":
-                return 1;
-            case "NORMAL":
-                return 2;
-            case "BAIXA":
-                return 3;
-            default:
-                throw new RuntimeException("Prioridade text inválido");
-        }
-    }
+    
     
     public void remover(int row){
         TarefaDAO dao = new TarefaDAO();
@@ -132,7 +121,7 @@ public class TarefaController implements Observer{
     }
     
      public void update(int id, String titulo, String descricao, String dataInicio,
-                String dataTermino, String prioridade, boolean done
+                String dataTermino, int prioridade, boolean done
             ){
         Tarefa task = new Tarefa();
         task.setId(id);
@@ -141,7 +130,7 @@ public class TarefaController implements Observer{
         try {
             task.setDataInicio(DateConversion.dateFormtToCalendar(dataInicio));
             task.setDataTermino(DateConversion.dateFormtToCalendar(dataTermino));
-            task.setPrioridade(getPrioridadeId(prioridade));
+            task.setPrioridade(prioridade);
             task.setDone(done);
             TarefaDAO dao = new TarefaDAO();
             dao.update(task);

@@ -265,12 +265,24 @@ public class DialogAlterarTarefa extends javax.swing.JDialog {
         String descricao = this.txtDescricao.getText();
         String dataInicio = this.txtDataInicio.getText();
         String dataTermino = this.txtDataTermino.getText();
-        String prioridade = this.comboBoxPrioridade.getSelectedItem().toString();
+        int prioridade = this.getPrioridadeId(this.comboBoxPrioridade.getSelectedItem().toString());
         boolean done = this.checkDone.isSelected();
-        this.controller.update(this.id, titulo, descricao, dataInicio, dataTermino, prioridade.toUpperCase(), done);
+        this.controller.update(this.id, titulo, descricao, dataInicio, dataTermino, prioridade, done);
         
     }//GEN-LAST:event_btnSalvarActionPerformed
 
+    public int getPrioridadeId(String text){
+        switch(text){
+            case "Alta":
+                return 1;
+            case "Normal":
+                return 2;
+            case "Baixa":
+                return 3;
+            default:
+                throw new RuntimeException("Prioridade text inválido");
+        }
+    }
     /**
      * @param args the command line arguments
      */

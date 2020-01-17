@@ -210,12 +210,25 @@ public class DialogNovaTarefa extends javax.swing.JDialog {
         }
         String titulo=this.txtNome.getText(), descricao=this.txtDescricao.getText(); 
         String dataInicio= this.txtDataInicio.getText(), dataTermino= this.txtDataTermino.getText();
-        String prioridade=this.comboBoxPrioridade.getSelectedItem().toString().toUpperCase();
+        int prioridade= getPrioridadeId( this.comboBoxPrioridade.getSelectedItem().toString());
         System.err.println(">> "+prioridade);
         this.controller.inserir(titulo, descricao, dataInicio, dataTermino, prioridade, false);
         this.controller.findAll();
     }//GEN-LAST:event_btnSalvarActionPerformed
 
+    public int getPrioridadeId(String text){
+        switch(text){
+            case "Alta":
+                return 1;
+            case "Normal":
+                return 2;
+            case "Baixa":
+                return 3;
+            default:
+                throw new RuntimeException("Prioridade text inválido");
+        }
+    }
+    
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
         this.dispose();
