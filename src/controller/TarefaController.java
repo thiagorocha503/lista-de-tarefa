@@ -7,6 +7,8 @@ package controller;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -14,6 +16,7 @@ import model.bean.Tarefa;
 import model.dao.TarefaDAO;
 import model.tabelModel.TarefaTabelModel;
 import util.DateConversion;
+import util.Observer;
 import util.exception.DateConversionException;
 import util.exception.TarefaDateException;
 import util.exception.TarefaPrioridadeException;
@@ -22,12 +25,13 @@ import util.exception.TarefaPrioridadeException;
  *
  * @author thiago
  */
-public class TarefaController {
+public class TarefaController implements Observer{
     
     private final TarefaTabelModel tarefaTabelModel;
 
     public TarefaController(TarefaTabelModel tarefaTabelModel) {
         this.tarefaTabelModel = tarefaTabelModel;
+        this.tarefaTabelModel.addObserver(this);
     }
     
     public void inserir(String titulo, String descricao, String dataInicio,
@@ -161,10 +165,24 @@ public class TarefaController {
         } catch(Exception ex){
             Logger.getLogger(TarefaController.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "Erro", "Erro inesperado: "+ex,JOptionPane.ERROR_MESSAGE);
-        }
-        
-        
+        }    
     }
-        
-    
+
+    @Override
+    public void update(Object o) {
+        //System.err.println("Algo mudou!");
+        TarefaDAO dao = new TarefaDAO();  
+        Map<String, Object> valores = (HashMap)o;
+        try {
+            Tarefa task = dao.getById((Integer)valores.get("id"));
+            task.setDone((boolean) valores.get("done"));
+            dao.update(task);
+        } catch (SQLException ex) {
+            Logger.getLogger(TarefaController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NullPointerException ex){
+            JOptionPane.showMessageDialog(null, "Tarefa não encontrada");
+        }
+    }
+
+  
 }
