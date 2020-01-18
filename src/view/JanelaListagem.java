@@ -84,6 +84,8 @@ public class JanelaListagem extends javax.swing.JFrame {
         panelBusca = new javax.swing.JPanel();
         txtBusca = new javax.swing.JTextField();
         btnPesquisar = new javax.swing.JButton();
+        lblFiltro = new javax.swing.JLabel();
+        cbBox = new javax.swing.JComboBox<>();
         scrlTabel = new javax.swing.JScrollPane();
         tbTarefas = new javax.swing.JTable();
         btnNew = new javax.swing.JButton();
@@ -110,16 +112,24 @@ public class JanelaListagem extends javax.swing.JFrame {
             }
         });
 
+        lblFiltro.setText("Filtro:");
+
+        cbBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "não concluido", "concluido", "todos" }));
+
         javax.swing.GroupLayout panelBuscaLayout = new javax.swing.GroupLayout(panelBusca);
         panelBusca.setLayout(panelBuscaLayout);
         panelBuscaLayout.setHorizontalGroup(
             panelBuscaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelBuscaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(txtBusca)
+                .addComponent(lblFiltro)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cbBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtBusca, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnPesquisar)
-                .addGap(148, 148, 148))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelBuscaLayout.setVerticalGroup(
             panelBuscaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -127,7 +137,9 @@ public class JanelaListagem extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(panelBuscaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtBusca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnPesquisar))
+                    .addComponent(btnPesquisar)
+                    .addComponent(lblFiltro)
+                    .addComponent(cbBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
@@ -306,6 +318,8 @@ public class JanelaListagem extends javax.swing.JFrame {
     private javax.swing.JButton btnExit;
     private javax.swing.JButton btnNew;
     private javax.swing.JButton btnPesquisar;
+    private javax.swing.JComboBox<String> cbBox;
+    private javax.swing.JLabel lblFiltro;
     private javax.swing.JPanel panelBusca;
     private javax.swing.JPanel panelContainer;
     private javax.swing.JScrollPane scrlTabel;
