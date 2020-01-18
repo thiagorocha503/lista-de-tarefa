@@ -25,14 +25,14 @@ import util.exception.TarefaPrioridadeException;
  *
  * @author thiago
  */
-public class TarefaDAO implements TarefaImp{
+public class TarefaDAO implements TarefaImp {
 
     @Override
-    public void insert(Tarefa task) throws SQLException{
+    public void insert(Tarefa task) throws SQLException {
         Connection conn = ConnectionFatory.getConnection();
         String sql = "INSERT INTO tarefa(title, description, data_inicio, data_termino, prioridade, is_done)"
-                    + "VALUES(?,?,?,?,?,?)";
-        PreparedStatement stmt =null;
+                + "VALUES(?,?,?,?,?,?)";
+        PreparedStatement stmt = null;
         try {
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, task.getTitle());
@@ -40,29 +40,32 @@ public class TarefaDAO implements TarefaImp{
             stmt.setString(3, DateConversion.calendarToDateSQL(task.getDataInicio()));
             stmt.setString(4, DateConversion.calendarToDateSQL(task.getDataTermino()));
             stmt.setInt(5, task.getPrioridade());
-            stmt.setInt(6, (task.getDone())?1:0 );// tru e false sqlite3
+            stmt.setInt(6, (task.getDone()) ? 1 : 0);// tru e false sqlite3
             stmt.executeUpdate();
-            int i = (task.getDone())?1:0;
+            int i = (task.getDone()) ? 1 : 0;
         } catch (SQLException ex) {
             Logger.getLogger(TarefaDAO.class.getName()).log(Level.SEVERE, null, ex);
-            throw new SQLException("Erro: "+ex);
-        } finally{
+            throw new SQLException("Erro: " + ex);
+        } finally {
             ConnectionFatory.closeConnection(conn, stmt);
-        }  
+        }
     }
 
     @Override
-    public ArrayList<Tarefa> findAll() throws SQLException{
-      String sql = "SELECT * FROM tarefa";
+    public ArrayList<Tarefa> findByTitleAndIsDone(String title, boolean done) throws SQLException, TarefaPrioridadeException, TarefaDateException, DateConversionException,
+            TarefaPrioridadeException {
+        String sql = "SELECT * FROM tarefa WHERE title LIKE ? AND is_done=? ORDER BY data_termino, prioridade  ASC";
         Connection conn = ConnectionFatory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         ArrayList<Tarefa> tarefas = new ArrayList<>();
         try {
             stmt = conn.prepareStatement(sql);
+            stmt.setString(1, "%" + title + "%");
+            stmt.setInt(2, (done) ? 1 : 0);
             rs = stmt.executeQuery();
-            while(rs.next()){
-                Tarefa task  =new Tarefa();
+            while (rs.next()) {
+                Tarefa task = new Tarefa();
                 task.setId(rs.getInt("id"));
                 task.setTitle(rs.getString("title"));
                 task.setDescription(rs.getString("description"));
@@ -73,74 +76,40 @@ public class TarefaDAO implements TarefaImp{
                 tarefas.add(task);
             }
             return tarefas;
-        } catch(SQLException ex){
-            Logger.getLogger(TarefaDAO.class.getName()).log(Level.SEVERE, null, ex);
-            throw new SQLDataException(ex);
-        } catch (DateConversionException | TarefaDateException | NullPointerException | TarefaPrioridadeException ex) {
-            Logger.getLogger(TarefaDAO.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        } finally{
-            ConnectionFatory.closeConnection(conn, stmt, rs);
-        }
-    }
-    
-    @Override
-    public ArrayList<Tarefa> findAllNotDone() throws SQLException,  TarefaDateException, DateConversionException,
-            TarefaPrioridadeException{
-      String sql = "SELECT * FROM tarefa WHERE is_done=0";
-        Connection conn = ConnectionFatory.getConnection();
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        ArrayList<Tarefa> tarefas = new ArrayList<>();
-        try {
-            stmt = conn.prepareStatement(sql);
-            rs = stmt.executeQuery();
-            while(rs.next()){
-                Tarefa task  =new Tarefa();
-                task.setId(rs.getInt("id"));
-                task.setTitle(rs.getString("title"));
-                task.setDescription(rs.getString("description"));
-                task.setDataInicio(DateConversion.sqlDateToCalendar(rs.getString("data_inicio")));
-                task.setDataTermino(DateConversion.sqlDateToCalendar(rs.getString("data_termino")));
-                task.setPrioridade(rs.getInt("prioridade"));
-                task.setDone((rs.getInt("is_done") != 0));
-                tarefas.add(task);
-            }
-            return tarefas;
-        } catch (DateConversionException ex){
+        } catch (DateConversionException ex) {
             Logger.getLogger(TarefaDAO.class.getName()).log(Level.SEVERE, null, ex);
             throw new DateConversionException(ex.toString());
-       } catch(SQLException  ex){
+        } catch (SQLException ex) {
             Logger.getLogger(TarefaDAO.class.getName()).log(Level.SEVERE, null, ex);
             throw new SQLException(ex.toString());
         } catch (TarefaDateException ex) {
-            Logger.getLogger(TarefaDAO.class.getName()).log(Level.SEVERE, null, ex);  
+            Logger.getLogger(TarefaDAO.class.getName()).log(Level.SEVERE, null, ex);
             throw new TarefaDateException(ex.toString());
         } catch (NullPointerException ex) {
             Logger.getLogger(TarefaDAO.class.getName()).log(Level.SEVERE, null, ex);
-            throw  new NullPointerException(ex.toString());
+            throw new NullPointerException(ex.toString());
         } catch (TarefaPrioridadeException ex) {
             Logger.getLogger(TarefaDAO.class.getName()).log(Level.SEVERE, null, ex);
             throw new TarefaPrioridadeException(ex.toString());
-        } finally{
+        } finally {
             ConnectionFatory.closeConnection(conn, stmt, rs);
         }
     }
 
     @Override
     public ArrayList<Tarefa> findByTitle(String titulo) throws SQLException, TarefaDateException,
-            DateConversionException{
-        String sql = "SELECT * FROM tarefa WHERE title LIKE ?";
+            DateConversionException {
+        String sql = "SELECT * FROM tarefa WHERE title LIKE ? order by is_done asc";
         Connection conn = ConnectionFatory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         ArrayList<Tarefa> tarefas = new ArrayList<>();
         try {
             stmt = conn.prepareStatement(sql);
-            stmt.setString(1, "%"+titulo+"%");
+            stmt.setString(1, "%" + titulo + "%");
             rs = stmt.executeQuery();
-            while(rs.next()){
-                Tarefa task  =new Tarefa();
+            while (rs.next()) {
+                Tarefa task = new Tarefa();
                 task.setId(rs.getInt("id"));
                 task.setTitle(rs.getString("title"));
                 task.setDescription(rs.getString("description"));
@@ -163,7 +132,7 @@ public class TarefaDAO implements TarefaImp{
         } catch (TarefaDateException | NullPointerException ex) {
             Logger.getLogger(TarefaDAO.class.getName()).log(Level.SEVERE, null, ex);
             return null;
-        } finally{
+        } finally {
             ConnectionFatory.closeConnection(conn, stmt, rs);
         }
     }
@@ -178,8 +147,8 @@ public class TarefaDAO implements TarefaImp{
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, id);
             rs = stmt.executeQuery();
-            if(rs.next()){
-                Tarefa task  =new Tarefa();
+            if (rs.next()) {
+                Tarefa task = new Tarefa();
                 task.setId(rs.getInt("id"));
                 task.setTitle(rs.getString("title"));
                 task.setDescription(rs.getString("description"));
@@ -188,17 +157,16 @@ public class TarefaDAO implements TarefaImp{
                 task.setPrioridade(rs.getInt("prioridade"));
                 task.setDone((rs.getInt("is_done") != 0));
                 return task;
-            } else{
+            } else {
                 return null;
             }
         } catch (SQLException | DateConversionException | TarefaDateException | NullPointerException | TarefaPrioridadeException ex) {
             Logger.getLogger(TarefaDAO.class.getName()).log(Level.SEVERE, null, ex);
             return null;
-        } finally{
+        } finally {
             ConnectionFatory.closeConnection(conn, stmt, rs);
         }
-        
-        
+
     }
 
     @Override
@@ -206,7 +174,7 @@ public class TarefaDAO implements TarefaImp{
         Connection conn = ConnectionFatory.getConnection();
         String sql = "UPDATE tarefa SET title=?, description=?, data_inicio=?, data_termino=?,"
                 + " prioridade=?, is_done=? WHERE id=? ";
-        PreparedStatement stmt =null;
+        PreparedStatement stmt = null;
         try {
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, task.getTitle());
@@ -214,34 +182,32 @@ public class TarefaDAO implements TarefaImp{
             stmt.setString(3, DateConversion.calendarToDateSQL(task.getDataInicio()));
             stmt.setString(4, DateConversion.calendarToDateSQL(task.getDataTermino()));
             stmt.setInt(5, task.getPrioridade());
-            stmt.setInt(6, (task.getDone())?1:0 );// tru e false sqlite3
+            stmt.setInt(6, (task.getDone()) ? 1 : 0);// tru e false sqlite3
             stmt.setInt(7, task.getId());
             stmt.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(TarefaDAO.class.getName()).log(Level.SEVERE, null, ex);
-            throw new SQLException("Erro: "+ex);
-        } finally{
-            ConnectionFatory.closeConnection(conn, stmt);
-        }  
-    }
-
-    @Override
-    public void removeById(int id) throws SQLException{
-        Connection conn = ConnectionFatory.getConnection();
-        String sql = "DELETE FROM tarefa where id = ?";
-        PreparedStatement stmt =null;
-        try {
-            stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, id);
-            stmt.executeUpdate();  
-        } catch (SQLException ex) {
-            Logger.getLogger(TarefaDAO.class.getName()).log(Level.SEVERE, null, ex);
-            throw new SQLException("Erro: "+ex);
-        } finally{
+            throw new SQLException("Erro: " + ex);
+        } finally {
             ConnectionFatory.closeConnection(conn, stmt);
         }
     }
-    
-    
-   
+
+    @Override
+    public void removeById(int id) throws SQLException {
+        Connection conn = ConnectionFatory.getConnection();
+        String sql = "DELETE FROM tarefa where id = ?";
+        PreparedStatement stmt = null;
+        try {
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(TarefaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new SQLException("Erro: " + ex);
+        } finally {
+            ConnectionFatory.closeConnection(conn, stmt);
+        }
+    }
+
 }

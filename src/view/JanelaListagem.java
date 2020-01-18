@@ -30,45 +30,44 @@ public class JanelaListagem extends javax.swing.JFrame {
      * Creates new form JanelaListagem
      */
     private final TarefaController controller;
-    
+
     public JanelaListagem() {
         initComponents();
         TarefaTabelModel tarefaTabelModel = new TarefaTabelModel();
         this.tbTarefas.setModel(tarefaTabelModel);
         this.controller = new TarefaController(tarefaTabelModel);
         colorir();
-        
+
     }
-    
-    public void colorir(){
-        this.tbTarefas.setDefaultRenderer(Object.class, new DefaultTableCellHeaderRenderer(){
-            
+
+    public void colorir() {
+        this.tbTarefas.setDefaultRenderer(Object.class, new DefaultTableCellHeaderRenderer() {
+
             @Override
             public Component getTableCellRendererComponent(JTable jtable, Object value, boolean isSelected, boolean bln1, int row, int column) {
-                JLabel label = (JLabel)super.getTableCellRendererComponent(jtable, value, isSelected, bln1, row, column); //To change body of generated methods, choose Tools | Templates.
+                JLabel label = (JLabel) super.getTableCellRendererComponent(jtable, value, isSelected, bln1, row, column); //To change body of generated methods, choose Tools | Templates.
                 Calendar hoje = Calendar.getInstance();
-                Calendar prazo=null;
+                Calendar prazo = null;
                 try {
                     prazo = DateConversion.dateFormtToCalendar(jtable.getValueAt(row, 4).toString());
                 } catch (DateConversionException ex) {
                     Logger.getLogger(JanelaListagem.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 Color cor = new Color(231, 76, 76); //#e74c3c
-                
-                if(hoje.compareTo(prazo) > 0 && !(boolean)jtable.getValueAt(row, 6) ){
+
+                if (hoje.compareTo(prazo) > 0 && !(boolean) jtable.getValueAt(row, 6)) {
                     label.setBackground(cor);
-                    
-                }            
+
+                }
                 return label;
             }
-            
-            
+
         });
     }
-    
-    public void initilazeTable(){
-           this.controller.findAll();
-        
+
+    public void initilazeTable() {
+        this.controller.findByTitleAndIsDone("", false);
+
     }
 
     /**
@@ -239,46 +238,50 @@ public class JanelaListagem extends javax.swing.JFrame {
         DialogNovaTarefa dialogNovo = new DialogNovaTarefa(this, true, this.controller);
         dialogNovo.setVisible(true);
     }//GEN-LAST:event_btnNewActionPerformed
-    
-    private void buscar(){
-        if(this.txtBusca.getText().equals("")){
-            this.controller.findAll();
-        } else {
+
+    private void buscar() {
+        int filtroSelecionado = this.cbBox.getSelectedIndex();
+        if (filtroSelecionado == 0) {
+            this.controller.findByTitleAndIsDone(this.txtBusca.getText(), false);
+        } else if (filtroSelecionado == 1) {
+            this.controller.findByTitleAndIsDone(this.txtBusca.getText(), true);
+        } else if (filtroSelecionado == 2) {
             this.controller.findByTitle(this.txtBusca.getText());
         }
     }
-    
+
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
         // TODO add your handling code here:
+        System.err.println("> " + this.cbBox.getSelectedIndex());
         this.buscar();
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
     private void txtBuscaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscaKeyPressed
         // TODO add your handling code here:
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             this.buscar();
         }
     }//GEN-LAST:event_txtBuscaKeyPressed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
-        if(this.tbTarefas.getSelectedRow() == -1){
+        if (this.tbTarefas.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(null, "Selecione um linha da tabela");
             return;
         }
-        if(JOptionPane.showConfirmDialog(null, "Deseja realmente remover a tarefa selecionada?", "Remoção", JOptionPane.YES_NO_OPTION)==0){
+        if (JOptionPane.showConfirmDialog(null, "Deseja realmente remover a tarefa selecionada?", "Remoção", JOptionPane.YES_NO_OPTION) == 0) {
             this.controller.remover(this.tbTarefas.getSelectedRow());
         }
-        
+
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         // TODO add your handling code here:
-        if(this.tbTarefas.getSelectedRow() == -1){
+        if (this.tbTarefas.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(null, "Selecione um linha");
             return;
         }
-        int row = this.tbTarefas.getSelectedRow();    
+        int row = this.tbTarefas.getSelectedRow();
         DialogAlterarTarefa dialogEdit = new DialogAlterarTarefa(this, true, this.controller, row, this.tbTarefas);
         dialogEdit.setVisible(true);
     }//GEN-LAST:event_btnEditActionPerformed
@@ -303,7 +306,7 @@ public class JanelaListagem extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(JanelaListagem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
+
         //</editor-fold>
 
         /* Create and display the form */

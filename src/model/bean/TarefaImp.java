@@ -16,16 +16,17 @@ import util.exception.TarefaPrioridadeException;
  * @author thiago
  */
 public interface TarefaImp {
-    
+
     void insert(Tarefa task) throws SQLException;
-    ArrayList<Tarefa> findAll() throws SQLException;
-    ArrayList<Tarefa> findByTitle(String titulo)throws SQLException, TarefaDateException, DateConversionException;
-    ArrayList<Tarefa> findAllNotDone() throws SQLException,  TarefaDateException, DateConversionException,
-            TarefaPrioridadeException;
+
+    ArrayList<Tarefa> findByTitle(String titulo) throws SQLException, TarefaDateException, DateConversionException;
+
+    ArrayList<Tarefa> findByTitleAndIsDone(String title, boolean done) throws SQLException, TarefaPrioridadeException, TarefaDateException, DateConversionException;
+
     Tarefa getById(int id);
+
     void update(Tarefa task) throws SQLException;
+
     void removeById(int id) throws SQLException;
-    
-    
-    
+
 }

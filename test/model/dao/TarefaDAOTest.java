@@ -25,8 +25,7 @@ import util.exception.TarefaPrioridadeException;
  *
  * @author thiago
  */
-public class TarefaDAOTest extends TestCase{
-    
+public class TarefaDAOTest extends TestCase {
 
     final String TITULO = "titulo";
     final String DESCRIPTCION = "texto";
@@ -34,16 +33,16 @@ public class TarefaDAOTest extends TestCase{
     final String DATA_TERMINO = "2020-01-16";
     final boolean IS_DONE = false;
     final int PRIORIDADE = 3;
-       
+
     /**
      * Apagar tabela para novos testes
-     * 
+     *
      */
-    public void resetDataBase(){
+    public void resetDataBase() {
         String path = ConnectionFatory.getPATH();
-        System.err.println(">> "+path);
+        System.err.println(">> " + path);
         File data = new File(path);
-        if(data.exists()){
+        if (data.exists()) {
             Connection conn = ConnectionFatory.getConnection();
             String sql = "DROP TABLE IF EXISTS tarefa";
             PreparedStatement stmt;
@@ -55,14 +54,11 @@ public class TarefaDAOTest extends TestCase{
                 fail("Erro ao apagar tabela");
             }
         } else {
-            fail("Caminho não encontrado: "+path);
+            fail("Caminho não encontrado: " + path);
         }
-        
-        
+
     }
-    
-    
-    
+
     public Tarefa getTarefa() {
         Tarefa task = new Tarefa();
         task.setTitle(TITULO);
@@ -75,7 +71,7 @@ public class TarefaDAOTest extends TestCase{
             fail("Erro de data");
         } catch (NullPointerException ex) {
             Logger.getLogger(TarefaDAOTest.class.getName()).log(Level.SEVERE, null, ex);
-             fail("null error");
+            fail("null error");
         }
         try {
             task.setPrioridade(PRIORIDADE);
@@ -86,9 +82,9 @@ public class TarefaDAOTest extends TestCase{
         task.setDone(IS_DONE);
         return task;
     }
-    
+
     @Test
-    public void testInsert(){
+    public void testInsert() {
         resetDataBase();
         Tarefa task = getTarefa();
         TarefaDAO dao = new TarefaDAO();
@@ -100,15 +96,14 @@ public class TarefaDAOTest extends TestCase{
         }
         dao = new TarefaDAO();
         task = dao.getById(1);
-        
+
         //verifica se o dado foi salvo
         assertNotNull(task);
-     
-       
+
     }
-    
+
     @Test
-    public void testGetById(){
+    public void testGetById() {
         resetDataBase();
         TarefaDAO dao = new TarefaDAO();
         Tarefa task = getTarefa();
@@ -120,26 +115,24 @@ public class TarefaDAOTest extends TestCase{
             Logger.getLogger(TarefaDAOTest.class.getName()).log(Level.SEVERE, null, ex);
             fail();
         }
-        
+
         assertEquals(task.getId(), 1);
         assertEquals(task.getTitle(), TITULO);
         assertEquals(task.getDescription(), DESCRIPTCION);
         try {
             assertEquals(DateConversion.calendarToDateSQL(task.getDataInicio()), DATA_INICIO);
-            assertEquals(DateConversion.calendarToDateSQL(task.getDataTermino()), DATA_TERMINO);          
+            assertEquals(DateConversion.calendarToDateSQL(task.getDataTermino()), DATA_TERMINO);
         } catch (Exception ex) {
             Logger.getLogger(TarefaDAOTest.class.getName()).log(Level.SEVERE, null, ex);
-            fail("Erro: "+ex);
-        }   
-        assertEquals(task.getDone(),IS_DONE);
-        assertEquals(task.getPrioridade(),PRIORIDADE);
+            fail("Erro: " + ex);
+        }
+        assertEquals(task.getDone(), IS_DONE);
+        assertEquals(task.getPrioridade(), PRIORIDADE);
 
-        
     }
-    
-    
+
     @Test
-    public void testRemoveById(){
+    public void testRemoveById() {
         resetDataBase();
         Tarefa task = getTarefa();
         TarefaDAO dao = new TarefaDAO();
@@ -151,9 +144,9 @@ public class TarefaDAOTest extends TestCase{
             fail("Erro remover");
         }
     }
-    
+
     @Test
-    public void testUpdate(){
+    public void testUpdate() {
         resetDataBase();
         Tarefa task = getTarefa();
         TarefaDAO dao = new TarefaDAO();
@@ -165,7 +158,7 @@ public class TarefaDAOTest extends TestCase{
         } catch (SQLException ex) {
             Logger.getLogger(TarefaDAOTest.class.getName()).log(Level.SEVERE, null, ex);
         }
-                
+
         try {
             task.setTitle("aaaa");
             task.setDone(true);
@@ -176,7 +169,7 @@ public class TarefaDAOTest extends TestCase{
             Logger.getLogger(TarefaDAOTest.class.getName()).log(Level.SEVERE, null, ex);
             fail();
         }
-        
+
         task = dao.getById(1);
         assertNotNull(task);
         assertEquals(task.getId(), 1);
@@ -184,39 +177,36 @@ public class TarefaDAOTest extends TestCase{
         assertEquals(task.getDescription(), DESCRIPTCION);
         try {
             assertEquals(DateConversion.calendarToDateSQL(task.getDataInicio()), DATA_INICIO);
-            assertEquals(DateConversion.calendarToDateSQL(task.getDataTermino()), "2020-01-16");          
+            assertEquals(DateConversion.calendarToDateSQL(task.getDataTermino()), "2020-01-16");
         } catch (Exception ex) {
             Logger.getLogger(TarefaDAOTest.class.getName()).log(Level.SEVERE, null, ex);
-            fail("Erro: "+ex);
-        }   
-        assertEquals(task.getDone(),true);
-        assertEquals(task.getPrioridade(),1);
-     }
-    
-    
-    
-    public ArrayList<Tarefa> getListaTarefa(){
+            fail("Erro: " + ex);
+        }
+        assertEquals(task.getDone(), true);
+        assertEquals(task.getPrioridade(), 1);
+    }
+
+    public ArrayList<Tarefa> getListaTarefa() {
         return null;
     }
-        
-    
+
     @Test
-    public void testFind(){
+    public void testFind() {
         resetDataBase();
-        String[] titulosDone = {"AAA","BBB","CCC","DDD"};
-        String[] titulosNotDone = { "XXA","XXXB","XCX","XXD"};
+        String[] titulosDone = {"AAA", "BBB", "CCC", "DDD"};
+        String[] titulosNotDone = {"XXA", "XXXB", "XCX", "XXD"};
         ArrayList<Tarefa> tasks = new ArrayList<>();
-        
+
         // popula tabela
         // tarefas feitas
-        for(String i: titulosDone){
+        for (String i : titulosDone) {
             Tarefa tarefa = getTarefa();
             tarefa.setTitle(i);
             tarefa.setDone(true);
             tasks.add(tarefa);
         }
         // tarefas não feitas
-        for(String j:titulosNotDone){
+        for (String j : titulosNotDone) {
             Tarefa tarefa = getTarefa();
             tarefa.setTitle(j);
             tarefa.setDone(false);
@@ -232,25 +222,25 @@ public class TarefaDAOTest extends TestCase{
                 fail();
             }
         });
-        
-        ArrayList<Tarefa> resultado=null;
-                 
+
+        ArrayList<Tarefa> resultado = null;
+
         try {
             // pesquisa tudos
-            resultado = dao.findAll();
+            resultado = dao.findByTitle("");
             assertEquals(resultado.size(), 8);
-        
+
             // pesquisa tarefa não feitas
-            resultado = dao.findAllNotDone();
+            resultado = dao.findByTitleAndIsDone("", false);
         } catch (SQLException | TarefaDateException | DateConversionException | TarefaPrioridadeException ex) {
             Logger.getLogger(TarefaDAOTest.class.getName()).log(Level.SEVERE, null, ex);
             fail();
         }
         assertEquals(resultado.size(), 4);
-        for(Tarefa tarefa: resultado){
+        for (Tarefa tarefa : resultado) {
             assertEquals(tarefa.getDone(), false);
         }
-        
+
         try {
             // pesquisa pelo título da tarefa
             resultado = dao.findByTitle("A");
@@ -263,7 +253,6 @@ public class TarefaDAOTest extends TestCase{
             Logger.getLogger(TarefaDAOTest.class.getName()).log(Level.SEVERE, null, ex);
             fail();
         }
-        
-            
+
     }
 }
