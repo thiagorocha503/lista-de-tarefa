@@ -5,6 +5,7 @@
  */
 package listadetarefa;
 
+import java.io.File;
 import javax.swing.JOptionPane;
 import view.JanelaListagem;
 
@@ -13,7 +14,16 @@ import view.JanelaListagem;
  * @author thiago
  */
 public class ListaDeTarefa {
-
+    
+    
+    
+    public static void verificaPastaData(){
+        String path = new File("").getAbsolutePath()+"\\data";
+        File data = new File(path);
+        if(!data.exists()){
+            data.mkdirs();
+        } 
+    }
     /**
      * @param args the command line arguments
      */
@@ -29,6 +39,7 @@ public class ListaDeTarefa {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(JanelaListagem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        verificaPastaData();
         JanelaListagem winListagem;
         winListagem = new JanelaListagem();
         try{
