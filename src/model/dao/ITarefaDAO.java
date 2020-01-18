@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.bean;
+package model.dao;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import model.bean.Tarefa;
 import util.exception.DateConversionException;
 import util.exception.TarefaDateException;
 import util.exception.TarefaPrioridadeException;
@@ -15,7 +16,7 @@ import util.exception.TarefaPrioridadeException;
  *
  * @author thiago
  */
-public interface TarefaImp {
+public interface ITarefaDAO {
 
     void insert(Tarefa task) throws SQLException;
 

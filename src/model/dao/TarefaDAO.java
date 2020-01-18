@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.bean.Tarefa;
-import model.bean.TarefaImp;
 import util.DateConversion;
 import util.exception.DateConversionException;
 import util.exception.TarefaDateException;
@@ -25,7 +24,7 @@ import util.exception.TarefaPrioridadeException;
  *
  * @author thiago
  */
-public class TarefaDAO implements TarefaImp {
+public class TarefaDAO implements ITarefaDAO {
 
     @Override
     public void insert(Tarefa task) throws SQLException {
