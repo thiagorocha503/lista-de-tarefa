@@ -18,8 +18,8 @@ import model.tabelModel.TarefaTabelModel;
 import util.DateConversion;
 import util.Observer;
 import util.exception.DateConversionException;
-import util.exception.TarefaDateException;
-import util.exception.TarefaPrioridadeException;
+import model.bean.exception.TarefaDateException;
+import model.bean.exception.TarefaPrioridadeException;
 
 /**
  *

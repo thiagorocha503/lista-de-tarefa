@@ -10,8 +10,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import junit.framework.TestCase;
 import org.junit.Test;
-import util.exception.TarefaDateException;
-import util.exception.TarefaPrioridadeException;
+import model.bean.exception.TarefaDateException;
+import model.bean.exception.TarefaPrioridadeException;
 
 
 /**

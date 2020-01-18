@@ -9,8 +9,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import model.bean.Tarefa;
 import util.exception.DateConversionException;
-import util.exception.TarefaDateException;
-import util.exception.TarefaPrioridadeException;
+import model.bean.exception.TarefaDateException;
+import model.bean.exception.TarefaPrioridadeException;
 
 /**
  *

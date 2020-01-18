@@ -6,8 +6,8 @@
 package model.bean;
 
 import java.util.Calendar;
-import util.exception.TarefaDateException;
-import util.exception.TarefaPrioridadeException;
+import model.bean.exception.TarefaDateException;
+import model.bean.exception.TarefaPrioridadeException;
 
 /**
  *

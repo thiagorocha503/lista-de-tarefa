@@ -17,8 +17,8 @@ import java.util.logging.Logger;
 import model.bean.Tarefa;
 import util.DateConversion;
 import util.exception.DateConversionException;
-import util.exception.TarefaDateException;
-import util.exception.TarefaPrioridadeException;
+import model.bean.exception.TarefaDateException;
+import model.bean.exception.TarefaPrioridadeException;
 
 /**
  *
