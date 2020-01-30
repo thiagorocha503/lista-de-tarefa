@@ -6,6 +6,11 @@
 package view;
 
 import controller.TarefaController;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import model.tabelModel.TarefaTabelModel;
@@ -37,14 +42,21 @@ public class DialogAlterarTarefa extends javax.swing.JDialog {
         this.id = (int)tabela.getValueAt(row, 0);
         initComponents();
         this.preencheCampos();
+        //this.jDateChooser2.
     }
     
     
     private void preencheCampos(){
         this.txtNome.setText(this.tabela.getValueAt(row, 1).toString());
         this.txtDescricao.setText(this.tabela.getValueAt(row, 2).toString());
-        this.txtDataInicio.setText(this.tabela.getValueAt(row, 3).toString());
-        this.txtDataTermino.setText(this.tabela.getValueAt(row, 4).toString());
+        DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            this.txtDataInicio.setDate(format.parse(this.tabela.getValueAt(row, 3).toString()));
+            this.txtDataTermino.setDate(format.parse(this.tabela.getValueAt(row, 4).toString()));
+        } catch (ParseException ex) {
+            Logger.getLogger(DialogAlterarTarefa.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         this.checkDone.setSelected((boolean) this.tabela.getValueAt(row, 6));
         String prioridade = this.tabela.getValueAt(row, 5).toString();
         switch (prioridade) {
@@ -81,13 +93,13 @@ public class DialogAlterarTarefa extends javax.swing.JDialog {
         scrllDescricao = new javax.swing.JScrollPane();
         txtDescricao = new javax.swing.JTextArea();
         lblDataInicio = new javax.swing.JLabel();
-        txtDataInicio = new javax.swing.JFormattedTextField();
         lblDataTermino = new javax.swing.JLabel();
-        txtDataTermino = new javax.swing.JFormattedTextField();
         lblPrioridade = new javax.swing.JLabel();
         comboBoxPrioridade = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         checkDone = new javax.swing.JCheckBox();
+        txtDataInicio = new com.toedter.calendar.JDateChooser();
+        txtDataTermino = new com.toedter.calendar.JDateChooser();
         btnSalvar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
 
@@ -107,19 +119,7 @@ public class DialogAlterarTarefa extends javax.swing.JDialog {
 
         lblDataInicio.setText("Data de ínicio");
 
-        try {
-            txtDataInicio.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-
         lblDataTermino.setText("Data máxima");
-
-        try {
-            txtDataTermino.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
 
         lblPrioridade.setText("Prioridade");
 
@@ -134,34 +134,33 @@ public class DialogAlterarTarefa extends javax.swing.JDialog {
             .addGroup(panelFormLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelFormLayout.createSequentialGroup()
-                        .addGroup(panelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelFormLayout.createSequentialGroup()
-                                .addComponent(lblDataInicio)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(lblDataTermino)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtDataTermino, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(panelFormLayout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(checkDone)))
-                        .addGap(0, 65, Short.MAX_VALUE))
+                    .addComponent(scrllDescricao)
                     .addGroup(panelFormLayout.createSequentialGroup()
                         .addGroup(panelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtNome)
-                            .addComponent(scrllDescricao, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(panelFormLayout.createSequentialGroup()
                                 .addGroup(panelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lblNome)
                                     .addComponent(lblDescricao)
                                     .addGroup(panelFormLayout.createSequentialGroup()
-                                        .addComponent(lblPrioridade)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(comboBoxPrioridade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(0, 0, Short.MAX_VALUE)))
+                                        .addGroup(panelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(panelFormLayout.createSequentialGroup()
+                                                .addComponent(lblDataInicio)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(txtDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(10, 10, 10)
+                                                .addComponent(lblDataTermino))
+                                            .addGroup(panelFormLayout.createSequentialGroup()
+                                                .addComponent(lblPrioridade)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(comboBoxPrioridade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(panelFormLayout.createSequentialGroup()
+                                                .addComponent(jLabel1)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(checkDone)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtDataTermino, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 55, Short.MAX_VALUE)))
                         .addContainerGap())))
         );
         panelFormLayout.setVerticalGroup(
@@ -173,23 +172,25 @@ public class DialogAlterarTarefa extends javax.swing.JDialog {
                 .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblDescricao)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(11, 11, 11)
                 .addComponent(scrllDescricao, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(panelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(lblDataTermino)
-                        .addComponent(txtDataTermino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(lblDataInicio))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblPrioridade)
-                    .addComponent(comboBoxPrioridade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(checkDone)))
+                    .addGroup(panelFormLayout.createSequentialGroup()
+                        .addGroup(panelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(lblDataInicio)
+                                .addComponent(lblDataTermino))
+                            .addComponent(txtDataTermino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblPrioridade)
+                            .addComponent(comboBoxPrioridade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(checkDone)))
+                    .addComponent(txtDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         btnSalvar.setText("Alterar");
@@ -263,8 +264,9 @@ public class DialogAlterarTarefa extends javax.swing.JDialog {
         }
         String titulo = this.txtNome.getText();
         String descricao = this.txtDescricao.getText();
-        String dataInicio = this.txtDataInicio.getText();
-        String dataTermino = this.txtDataTermino.getText();
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String dataInicio = dateFormat.format(this.txtDataInicio.getDate());
+        String dataTermino = dateFormat.format(this.txtDataTermino.getDate());
         int prioridade = this.getPrioridadeId(this.comboBoxPrioridade.getSelectedItem().toString());
         boolean done = this.checkDone.isSelected();
         this.controller.update(this.id, titulo, descricao, dataInicio, dataTermino, prioridade, done);
@@ -323,8 +325,8 @@ public class DialogAlterarTarefa extends javax.swing.JDialog {
     public boolean isFieldEmpty(){
         Boolean[] is_full = {this.txtNome.getText().equals(""),
         this.txtDescricao.getText().equals(""),
-        this.txtDataInicio.getText().equals("  /  /    "),
-        this.txtDataTermino.getText().equals("  /  /    ")
+        this.txtDataInicio.getDate()==null,
+        this.txtDataTermino.getDate()==null
                 };
         for (Boolean isEmpty : is_full) {
             if(isEmpty){
@@ -349,8 +351,8 @@ public class DialogAlterarTarefa extends javax.swing.JDialog {
     private javax.swing.JPanel panelContaiiner;
     private javax.swing.JPanel panelForm;
     private javax.swing.JScrollPane scrllDescricao;
-    private javax.swing.JFormattedTextField txtDataInicio;
-    private javax.swing.JFormattedTextField txtDataTermino;
+    private com.toedter.calendar.JDateChooser txtDataInicio;
+    private com.toedter.calendar.JDateChooser txtDataTermino;
     private javax.swing.JTextArea txtDescricao;
     private javax.swing.JTextField txtNome;
     // End of variables declaration//GEN-END:variables

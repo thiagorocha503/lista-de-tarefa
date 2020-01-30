@@ -6,6 +6,8 @@
 package view;
 
 import controller.TarefaController;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 import model.tabelModel.TarefaTabelModel;
 
@@ -21,6 +23,7 @@ public class DialogNovaTarefa extends javax.swing.JDialog {
      * Creates new form DialogNovaTarefa
      * @param parent
      * @param modal
+     * @param controller
      */
     public DialogNovaTarefa(java.awt.Frame parent, boolean modal, TarefaController controller) {
         super(parent, modal);
@@ -45,11 +48,11 @@ public class DialogNovaTarefa extends javax.swing.JDialog {
         scrllDescricao = new javax.swing.JScrollPane();
         txtDescricao = new javax.swing.JTextArea();
         lblDataInicio = new javax.swing.JLabel();
-        txtDataInicio = new javax.swing.JFormattedTextField();
         lblDataTermino = new javax.swing.JLabel();
-        txtDataTermino = new javax.swing.JFormattedTextField();
         lblPrioridade = new javax.swing.JLabel();
         comboBoxPrioridade = new javax.swing.JComboBox<>();
+        txtDataInicio = new com.toedter.calendar.JDateChooser();
+        txtDataTermino = new com.toedter.calendar.JDateChooser();
         btnSalvar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
 
@@ -71,19 +74,7 @@ public class DialogNovaTarefa extends javax.swing.JDialog {
 
         lblDataInicio.setText("Data de ínicio");
 
-        try {
-            txtDataInicio.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-
         lblDataTermino.setText("Data máxima");
-
-        try {
-            txtDataTermino.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
 
         lblPrioridade.setText("Prioridade");
 
@@ -101,22 +92,23 @@ public class DialogNovaTarefa extends javax.swing.JDialog {
                             .addComponent(lblNome)
                             .addComponent(txtNome)
                             .addComponent(lblDescricao)
-                            .addComponent(scrllDescricao))
+                            .addComponent(scrllDescricao, javax.swing.GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE))
                         .addGap(22, 22, 22))
                     .addGroup(panelFormLayout.createSequentialGroup()
-                        .addComponent(lblPrioridade)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(comboBoxPrioridade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(panelFormLayout.createSequentialGroup()
-                        .addComponent(lblDataInicio)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lblDataTermino)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtDataTermino, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 115, Short.MAX_VALUE))))
+                        .addGroup(panelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelFormLayout.createSequentialGroup()
+                                .addComponent(lblDataInicio)
+                                .addGap(6, 6, 6)
+                                .addComponent(txtDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(lblDataTermino)
+                                .addGap(12, 12, 12)
+                                .addComponent(txtDataTermino, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(panelFormLayout.createSequentialGroup()
+                                .addComponent(lblPrioridade)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(comboBoxPrioridade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         panelFormLayout.setVerticalGroup(
             panelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -128,15 +120,17 @@ public class DialogNovaTarefa extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblDescricao)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrllDescricao, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(lblDataInicio, javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(txtDataInicio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(lblDataTermino)
-                        .addComponent(txtDataTermino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(panelFormLayout.createSequentialGroup()
+                        .addComponent(scrllDescricao, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
+                        .addGap(17, 17, 17)
+                        .addGroup(panelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblDataInicio)
+                            .addComponent(txtDataTermino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblDataTermino)))
+                    .addGroup(panelFormLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(txtDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblPrioridade)
@@ -208,10 +202,13 @@ public class DialogNovaTarefa extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null,"Preencha todos os campos","Campo em branco",JOptionPane.ERROR_MESSAGE);
             return;
         }
+       
         String titulo=this.txtNome.getText(), descricao=this.txtDescricao.getText(); 
-        String dataInicio= this.txtDataInicio.getText(), dataTermino= this.txtDataTermino.getText();
+        DateFormat dateFormat  = new SimpleDateFormat("dd/MM/yyyy");
+        String dataInicio=  dateFormat .format(this.txtDataInicio.getDate());
+        String dataTermino= dateFormat .format(this.txtDataTermino.getDate());
         int prioridade= getPrioridadeId( this.comboBoxPrioridade.getSelectedItem().toString());
-        System.err.println(">> "+prioridade);
+       
         this.controller.inserir(titulo, descricao, dataInicio, dataTermino, prioridade, false);
         this.controller.findAll();
     }//GEN-LAST:event_btnSalvarActionPerformed
@@ -237,16 +234,16 @@ public class DialogNovaTarefa extends javax.swing.JDialog {
     public void cleanFiled(){
         this.txtNome.setText("");
         this.txtDescricao.setText("");
-        this.txtDataInicio.setText("");
-        this.txtDataTermino.setText("");
+        this.txtDataInicio.setDate(null);
+        this.txtDataTermino.setDate(null);
         this.comboBoxPrioridade.setSelectedIndex(0);
     }
     
     public boolean isFieldEmpty(){
         Boolean[] is_full = {this.txtNome.getText().equals(""),
         this.txtDescricao.getText().equals(""),
-        this.txtDataInicio.getText().equals("  /  /    "),
-        this.txtDataTermino.getText().equals("  /  /    ")
+        this.txtDataInicio.getDate()==null,
+        this.txtDataTermino.getDate()==null
                 };
         for (Boolean isEmpty : is_full) {
             if(isEmpty){
@@ -304,8 +301,8 @@ public class DialogNovaTarefa extends javax.swing.JDialog {
     private javax.swing.JPanel panelContaiiner;
     private javax.swing.JPanel panelForm;
     private javax.swing.JScrollPane scrllDescricao;
-    private javax.swing.JFormattedTextField txtDataInicio;
-    private javax.swing.JFormattedTextField txtDataTermino;
+    private com.toedter.calendar.JDateChooser txtDataInicio;
+    private com.toedter.calendar.JDateChooser txtDataTermino;
     private javax.swing.JTextArea txtDescricao;
     private javax.swing.JTextField txtNome;
     // End of variables declaration//GEN-END:variables
