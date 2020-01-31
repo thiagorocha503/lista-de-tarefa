@@ -50,15 +50,14 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="panelForm" alignment="0" max="32767" attributes="0"/>
-                      <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <EmptySpace pref="361" max="32767" attributes="0"/>
                           <Component id="btnCancelar" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="btnSalvar" min="-2" max="-2" attributes="0"/>
                       </Group>
+                      <Component id="panelForm" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -92,28 +91,19 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="lblNome" min="-2" max="-2" attributes="0"/>
-                                  <Component id="txtNome" max="32767" attributes="0"/>
-                                  <Component id="lblDescricao" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="scrllDescricao" alignment="0" pref="459" max="32767" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
-                          </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="lblDataInicio" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
-                                      <Component id="txtDataInicio" min="-2" pref="104" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Component id="txtDataInicio" min="-2" pref="134" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
                                       <Component id="lblDataTermino" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                                      <Component id="txtDataTermino" min="-2" pref="104" max="-2" attributes="0"/>
+                                      <Component id="txtDataTermino" min="-2" pref="128" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="lblPrioridade" min="-2" max="-2" attributes="0"/>
@@ -122,6 +112,20 @@
                                   </Group>
                               </Group>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="lblNome" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lblDescricao" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Component id="txtNome" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="scrllDescricao" alignment="1" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -137,20 +141,17 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="lblDescricao" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
+                      <Component id="scrllDescricao" pref="117" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Component id="scrllDescricao" pref="117" max="32767" attributes="0"/>
-                              <EmptySpace min="17" pref="17" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="103" alignment="1" groupAlignment="0" attributes="0">
                                   <Component id="lblDataInicio" min="-2" max="-2" attributes="0"/>
                                   <Component id="txtDataTermino" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblDataTermino" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
+                              <Component id="txtDataInicio" alignment="1" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" attributes="0">
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                              <Component id="txtDataInicio" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="lblDataTermino" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">

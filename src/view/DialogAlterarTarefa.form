@@ -99,15 +99,8 @@
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Component id="lblNome" alignment="0" min="-2" max="-2" attributes="0"/>
                                           <Component id="lblDescricao" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Group type="102" attributes="0">
+                                          <Group type="102" alignment="0" attributes="0">
                                               <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Group type="102" alignment="0" attributes="0">
-                                                      <Component id="lblDataInicio" min="-2" max="-2" attributes="0"/>
-                                                      <EmptySpace max="-2" attributes="0"/>
-                                                      <Component id="txtDataInicio" min="-2" pref="108" max="-2" attributes="0"/>
-                                                      <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                                                      <Component id="lblDataTermino" min="-2" max="-2" attributes="0"/>
-                                                  </Group>
                                                   <Group type="102" alignment="0" attributes="0">
                                                       <Component id="lblPrioridade" min="-2" max="-2" attributes="0"/>
                                                       <EmptySpace max="-2" attributes="0"/>
@@ -118,12 +111,19 @@
                                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                                       <Component id="checkDone" min="-2" max="-2" attributes="0"/>
                                                   </Group>
+                                                  <Group type="102" alignment="0" attributes="0">
+                                                      <Component id="lblDataInicio" min="-2" max="-2" attributes="0"/>
+                                                      <EmptySpace max="-2" attributes="0"/>
+                                                      <Component id="txtDataInicio" min="-2" pref="128" max="-2" attributes="0"/>
+                                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                                      <Component id="lblDataTermino" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
                                               </Group>
-                                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                              <Component id="txtDataTermino" min="-2" pref="108" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="txtDataTermino" min="-2" pref="122" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
-                                      <EmptySpace min="0" pref="55" max="32767" attributes="0"/>
+                                      <EmptySpace min="0" pref="27" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
@@ -149,7 +149,7 @@
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="lblDataInicio" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="lblDataTermino" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblDataTermino" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <Component id="txtDataTermino" min="-2" max="-2" attributes="0"/>
                               </Group>
