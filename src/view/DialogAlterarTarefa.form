@@ -147,10 +147,8 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="lblDataInicio" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="lblDataTermino" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  </Group>
+                                  <Component id="lblDataTermino" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblDataInicio" min="-2" max="-2" attributes="0"/>
                                   <Component id="txtDataTermino" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>

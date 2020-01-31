@@ -6,8 +6,9 @@
 package view;
 
 import controller.TarefaController;
-import java.awt.Color;
 import java.awt.event.KeyEvent;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.JOptionPane;
 import model.tabelModel.TarefaTabelModel;
 import model.tabelModel.TarefaTabelRenderer;
@@ -250,7 +251,16 @@ public class JanelaListagem extends javax.swing.JFrame {
             return;
         }
         int row = this.tbTarefas.getSelectedRow();
-        DialogAlterarTarefa dialogEdit = new DialogAlterarTarefa(this, true, this.controller, row, this.tbTarefas);
+        Map tarefaMap = new HashMap();
+        tarefaMap.put("id",this.tbTarefas.getValueAt(row, 0));
+        tarefaMap.put("title", this.tbTarefas.getValueAt(row, 1));
+        tarefaMap.put("description", this.tbTarefas.getValueAt(row, 2));
+        tarefaMap.put("dateStart", this.tbTarefas.getValueAt(row, 3));
+        tarefaMap.put("dateEnd", this.tbTarefas.getValueAt(row, 4));
+        tarefaMap.put("priority", this.tbTarefas.getValueAt(row, 5));
+        tarefaMap.put("done", this.tbTarefas.getValueAt(row, 6));
+        
+        DialogAlterarTarefa dialogEdit = new DialogAlterarTarefa(this, true, tarefaMap);
         dialogEdit.setVisible(true);
     }//GEN-LAST:event_btnEditActionPerformed
 
