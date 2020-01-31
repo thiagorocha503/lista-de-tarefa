@@ -5,32 +5,36 @@
  */
 package view;
 
-import controller.TarefaController;
+import controller.TarefaAddPresenterImp;
+import controller.interfaces.IPresenterAdd;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
-import model.tabelModel.TarefaTabelModel;
+import static javax.swing.JOptionPane.showMessageDialog;
+import view.interfaces.IViewAdd;
 
 /**
  *
  * @author thiago
  */
-public class DialogNovaTarefa extends javax.swing.JDialog {
+public class DialogNovaTarefa extends javax.swing.JDialog implements IViewAdd {
 
-    private final TarefaController controller;
+    private final IPresenterAdd presenter;
 
     /**
      * Creates new form DialogNovaTarefa
+     *
      * @param parent
      * @param modal
-     * @param controller
      */
-    public DialogNovaTarefa(java.awt.Frame parent, boolean modal, TarefaController controller) {
+    @SuppressWarnings("LeakingThisInConstructor")
+    public DialogNovaTarefa(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        this.controller = controller;
+        this.presenter = new TarefaAddPresenterImp();
+        this.presenter.setView(this);
         initComponents();
     }
- 
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -198,23 +202,11 @@ public class DialogNovaTarefa extends javax.swing.JDialog {
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         // TODO add your handling code here:
-        if (this.isFieldEmpty()){
-            JOptionPane.showMessageDialog(null,"Preencha todos os campos","Campo em branco",JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-       
-        String titulo=this.txtNome.getText(), descricao=this.txtDescricao.getText(); 
-        DateFormat dateFormat  = new SimpleDateFormat("dd/MM/yyyy");
-        String dataInicio=  dateFormat .format(this.txtDataInicio.getDate());
-        String dataTermino= dateFormat .format(this.txtDataTermino.getDate());
-        int prioridade= getPrioridadeId( this.comboBoxPrioridade.getSelectedItem().toString());
-       
-        this.controller.inserir(titulo, descricao, dataInicio, dataTermino, prioridade, false);
-        this.controller.findAll();
+        this.onSalve();
     }//GEN-LAST:event_btnSalvarActionPerformed
 
-    public int getPrioridadeId(String text){
-        switch(text){
+    public int getPrioridadeId(String text) {
+        switch (text) {
             case "Alta":
                 return 1;
             case "Normal":
@@ -225,34 +217,12 @@ public class DialogNovaTarefa extends javax.swing.JDialog {
                 throw new RuntimeException("Prioridade text inválido");
         }
     }
-    
+
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
-        this.dispose();
+        this.onCancelar();
     }//GEN-LAST:event_btnCancelarActionPerformed
-    
-    public void cleanFiled(){
-        this.txtNome.setText("");
-        this.txtDescricao.setText("");
-        this.txtDataInicio.setDate(null);
-        this.txtDataTermino.setDate(null);
-        this.comboBoxPrioridade.setSelectedIndex(0);
-    }
-    
-    public boolean isFieldEmpty(){
-        Boolean[] is_full = {this.txtNome.getText().equals(""),
-        this.txtDescricao.getText().equals(""),
-        this.txtDataInicio.getDate()==null,
-        this.txtDataTermino.getDate()==null
-                };
-        for (Boolean isEmpty : is_full) {
-            if(isEmpty){
-              return true;  
-            }
-        }      
-        return false;
-    }
-    
+
     /**
      * @param args the command line arguments
      */
@@ -273,12 +243,12 @@ public class DialogNovaTarefa extends javax.swing.JDialog {
             java.util.logging.Logger.getLogger(DialogNovaTarefa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
+
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(() -> {
-            DialogNovaTarefa dialog = new DialogNovaTarefa(new javax.swing.JFrame(), true, new TarefaController(new TarefaTabelModel()));
+            DialogNovaTarefa dialog = new DialogNovaTarefa(new javax.swing.JFrame(), true);
             dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                 @Override
                 public void windowClosing(java.awt.event.WindowEvent e) {
@@ -288,6 +258,65 @@ public class DialogNovaTarefa extends javax.swing.JDialog {
             dialog.setVisible(true);
         });
     }
+    public boolean isFieldEmpty() {
+        Boolean[] field = {this.txtNome.getText().equals(""),
+            this.txtDescricao.getText().equals(""),
+            this.txtDataInicio.getDate() == null,
+            this.txtDataTermino.getDate() == null
+        };
+        for (Boolean isEmpty : field) {
+            if (isEmpty) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void onSalve() {
+        if (this.isFieldEmpty()) {
+            showMessageDialog(null, "Preencha todos os campos corretamente", "Campo em branco ou inválidos", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        String titulo = this.txtNome.getText(), descricao = this.txtDescricao.getText();
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String dataInicio = dateFormat.format(this.txtDataInicio.getDate());
+        String dataTermino = dateFormat.format(this.txtDataTermino.getDate());
+        int prioridade = getPrioridadeId(this.comboBoxPrioridade.getSelectedItem().toString());
+
+        this.presenter.onSalve(titulo, descricao, dataInicio, dataTermino, prioridade, false);
+    }
+
+    @Override
+    public void onCancelar() {
+        this.presenter.onCancelar();
+    }
+
+    @Override
+    public void cleanField() {
+        this.txtNome.setText("");
+        this.txtDescricao.setText("");
+        this.txtDataInicio.setDate(null);
+        this.txtDataTermino.setDate(null);
+        this.comboBoxPrioridade.setSelectedIndex(0);
+    }
+
+    @Override
+    public void showMessageInfo(String info, String title) {
+        JOptionPane.showMessageDialog(null, title, info, JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    @Override
+    public void showMessageErro(String title, String erro) {
+        JOptionPane.showMessageDialog(null, title, erro, JOptionPane.ERROR_MESSAGE);
+    }
+
+    @Override
+    public void closeWindons() {
+        this.dispose();
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
