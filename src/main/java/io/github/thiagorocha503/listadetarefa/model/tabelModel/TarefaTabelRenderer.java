@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.tabelModel;
+package io.github.thiagorocha503.listadetarefa.model.tabelModel;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -13,9 +13,9 @@ import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import sun.swing.table.DefaultTableCellHeaderRenderer;
-import util.DateConversion;
-import util.exception.DateConversionException;
-import view.JanelaListagem;
+import io.github.thiagorocha503.listadetarefa.util.DateConversion;
+import io.github.thiagorocha503.listadetarefa.util.exception.DateConversionException;
+import io.github.thiagorocha503.listadetarefa.view.JanelaListagem;
 
 /**
  *

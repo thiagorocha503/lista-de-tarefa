@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package presenter.interfaces;
+package io.github.thiagorocha503.listadetarefa.presenter.interfaces;
 
-import view.interfaces.IViewEdit;
+import io.github.thiagorocha503.listadetarefa.view.interfaces.IViewEdit;
 
 /**
  *

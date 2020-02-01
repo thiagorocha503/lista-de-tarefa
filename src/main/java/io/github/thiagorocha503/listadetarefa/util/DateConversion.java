@@ -1,6 +1,6 @@
-package util;
+package io.github.thiagorocha503.listadetarefa.util;
 
-import util.exception.DateConversionException;
+import io.github.thiagorocha503.listadetarefa.util.exception.DateConversionException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

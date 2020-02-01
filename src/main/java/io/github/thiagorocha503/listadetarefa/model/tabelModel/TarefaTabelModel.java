@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.tabelModel;
+package io.github.thiagorocha503.listadetarefa.model.tabelModel;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -12,12 +12,12 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.AbstractTableModel;
-import model.bean.Tarefa;
-import util.DateConversion;
-import util.Observer;
-import model.bean.exception.TarefaDateException;
-import model.bean.exception.TarefaPrioridadeException;
-import util.SubjectTabel;
+import io.github.thiagorocha503.listadetarefa.model.bean.Tarefa;
+import io.github.thiagorocha503.listadetarefa.util.DateConversion;
+import io.github.thiagorocha503.listadetarefa.util.Observer;
+import io.github.thiagorocha503.listadetarefa.model.bean.exception.TarefaDateException;
+import io.github.thiagorocha503.listadetarefa.model.bean.exception.TarefaPrioridadeException;
+import io.github.thiagorocha503.listadetarefa.util.SubjectTabel;
 
 /**
  *

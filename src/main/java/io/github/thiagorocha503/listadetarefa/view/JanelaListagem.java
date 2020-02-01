@@ -3,17 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package view;
+package io.github.thiagorocha503.listadetarefa.view;
 
-import presenter.TarefaListPresenter;
-import presenter.interfaces.IPresenterList;
+import io.github.thiagorocha503.listadetarefa.presenter.TarefaListPresenter;
+import io.github.thiagorocha503.listadetarefa.presenter.interfaces.IPresenterList;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JOptionPane;
-import model.tabelModel.TarefaTabelModel;
-import model.tabelModel.TarefaTabelRenderer;
-import view.interfaces.IViewLIst;
+import io.github.thiagorocha503.listadetarefa.model.tabelModel.TarefaTabelModel;
+import io.github.thiagorocha503.listadetarefa.model.tabelModel.TarefaTabelRenderer;
+import io.github.thiagorocha503.listadetarefa.view.interfaces.IViewLIst;
 
 /**
  *

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package connection;
+package io.github.thiagorocha503.listadetarefa.connection;
 
 import java.io.File;
 import java.sql.*;

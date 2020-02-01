@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.bean;
+package io.github.thiagorocha503.listadetarefa.model.bean;
 
 import java.util.Calendar;
-import model.bean.exception.TarefaDateException;
-import model.bean.exception.TarefaPrioridadeException;
+import io.github.thiagorocha503.listadetarefa.model.bean.exception.TarefaDateException;
+import io.github.thiagorocha503.listadetarefa.model.bean.exception.TarefaPrioridadeException;
 
 /**
  *

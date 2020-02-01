@@ -1,4 +1,4 @@
-package util.exception;
+package io.github.thiagorocha503.listadetarefa.util.exception;
 
 
 

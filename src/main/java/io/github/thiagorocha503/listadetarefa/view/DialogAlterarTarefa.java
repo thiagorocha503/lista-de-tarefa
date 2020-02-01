@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package view;
+package io.github.thiagorocha503.listadetarefa.view;
 
-import presenter.TarefaEditPresenter;
-import presenter.interfaces.IPresenterEdit;
+import io.github.thiagorocha503.listadetarefa.presenter.TarefaEditPresenter;
+import io.github.thiagorocha503.listadetarefa.presenter.interfaces.IPresenterEdit;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import view.interfaces.IViewEdit;
+import io.github.thiagorocha503.listadetarefa.view.interfaces.IViewEdit;
 
 /**
  *

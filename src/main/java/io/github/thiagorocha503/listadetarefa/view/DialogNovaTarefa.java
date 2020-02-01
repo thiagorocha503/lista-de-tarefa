@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package view;
+package io.github.thiagorocha503.listadetarefa.view;
 
-import presenter.TarefaAddPresenterImp;
-import presenter.interfaces.IPresenterAdd;
+import io.github.thiagorocha503.listadetarefa.presenter.TarefaAddPresenterImp;
+import io.github.thiagorocha503.listadetarefa.presenter.interfaces.IPresenterAdd;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.showMessageDialog;
-import view.interfaces.IViewAdd;
+import io.github.thiagorocha503.listadetarefa.view.interfaces.IViewAdd;
 
 /**
  *

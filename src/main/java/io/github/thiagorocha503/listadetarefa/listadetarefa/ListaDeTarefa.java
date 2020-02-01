@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package listadetarefa;
+package io.github.thiagorocha503.listadetarefa.listadetarefa;
 
 import java.io.File;
 import javax.swing.JOptionPane;
-import view.JanelaListagem;
+import io.github.thiagorocha503.listadetarefa.view.JanelaListagem;
 
 /**
  *

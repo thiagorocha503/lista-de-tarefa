@@ -3,19 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package presenter;
+package io.github.thiagorocha503.listadetarefa.presenter;
 
-import presenter.interfaces.IPresenterEdit;
+import io.github.thiagorocha503.listadetarefa.presenter.interfaces.IPresenterEdit;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.bean.Tarefa;
-import model.bean.exception.TarefaDateException;
-import model.bean.exception.TarefaPrioridadeException;
-import service.TarefaService;
-import util.DateConversion;
-import util.exception.DateConversionException;
-import view.interfaces.IViewEdit;
+import io.github.thiagorocha503.listadetarefa.model.bean.Tarefa;
+import io.github.thiagorocha503.listadetarefa.model.bean.exception.TarefaDateException;
+import io.github.thiagorocha503.listadetarefa.model.bean.exception.TarefaPrioridadeException;
+import io.github.thiagorocha503.listadetarefa.service.TarefaService;
+import io.github.thiagorocha503.listadetarefa.util.DateConversion;
+import io.github.thiagorocha503.listadetarefa.util.exception.DateConversionException;
+import io.github.thiagorocha503.listadetarefa.view.interfaces.IViewEdit;
 
 /**
  *

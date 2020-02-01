@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package service;
+package io.github.thiagorocha503.listadetarefa.service;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import model.bean.Tarefa;
-import model.bean.exception.TarefaDateException;
-import model.bean.exception.TarefaPrioridadeException;
-import model.dao.TarefaDAO;
-import util.exception.DateConversionException;
+import io.github.thiagorocha503.listadetarefa.model.bean.Tarefa;
+import io.github.thiagorocha503.listadetarefa.model.bean.exception.TarefaDateException;
+import io.github.thiagorocha503.listadetarefa.model.bean.exception.TarefaPrioridadeException;
+import io.github.thiagorocha503.listadetarefa.model.dao.TarefaDAO;
+import io.github.thiagorocha503.listadetarefa.util.exception.DateConversionException;
 
 /**
  *

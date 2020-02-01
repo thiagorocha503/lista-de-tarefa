@@ -3,22 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.dao;
+package io.github.thiagorocha503.listadetarefa.model.dao;
 
-import connection.ConnectionFatory;
+import io.github.thiagorocha503.listadetarefa.connection.ConnectionFatory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLDataException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.bean.Tarefa;
-import util.DateConversion;
-import util.exception.DateConversionException;
-import model.bean.exception.TarefaDateException;
-import model.bean.exception.TarefaPrioridadeException;
+import io.github.thiagorocha503.listadetarefa.model.bean.Tarefa;
+import io.github.thiagorocha503.listadetarefa.util.DateConversion;
+import io.github.thiagorocha503.listadetarefa.util.exception.DateConversionException;
+import io.github.thiagorocha503.listadetarefa.model.bean.exception.TarefaDateException;
+import io.github.thiagorocha503.listadetarefa.model.bean.exception.TarefaPrioridadeException;
 
 /**
  *
