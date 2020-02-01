@@ -57,6 +57,7 @@ public class DialogNovaTarefa extends javax.swing.JDialog implements IViewAdd {
         comboBoxPrioridade = new javax.swing.JComboBox<>();
         txtDataInicio = new com.toedter.calendar.JDateChooser();
         txtDataTermino = new com.toedter.calendar.JDateChooser();
+        checkDone = new javax.swing.JCheckBox();
         btnSalvar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
 
@@ -84,6 +85,11 @@ public class DialogNovaTarefa extends javax.swing.JDialog implements IViewAdd {
 
         comboBoxPrioridade.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Normal", "Baixa", "Alta" }));
 
+        checkDone.setText("concluído");
+        checkDone.setContentAreaFilled(false);
+        checkDone.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        checkDone.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+
         javax.swing.GroupLayout panelFormLayout = new javax.swing.GroupLayout(panelForm);
         panelForm.setLayout(panelFormLayout);
         panelFormLayout.setHorizontalGroup(
@@ -94,28 +100,31 @@ public class DialogNovaTarefa extends javax.swing.JDialog implements IViewAdd {
                     .addGroup(panelFormLayout.createSequentialGroup()
                         .addGroup(panelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelFormLayout.createSequentialGroup()
-                                .addComponent(lblDataInicio)
-                                .addGap(6, 6, 6)
-                                .addComponent(txtDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblDataTermino)
-                                .addGap(12, 12, 12)
-                                .addComponent(txtDataTermino, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(panelFormLayout.createSequentialGroup()
-                                .addComponent(lblPrioridade)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(comboBoxPrioridade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(panelFormLayout.createSequentialGroup()
-                        .addGroup(panelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelFormLayout.createSequentialGroup()
                                 .addGroup(panelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lblNome)
                                     .addComponent(lblDescricao))
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addComponent(txtNome)
                             .addComponent(scrllDescricao, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addContainerGap())))
+                        .addContainerGap())
+                    .addGroup(panelFormLayout.createSequentialGroup()
+                        .addGroup(panelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(checkDone)
+                            .addGroup(panelFormLayout.createSequentialGroup()
+                                .addGroup(panelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(panelFormLayout.createSequentialGroup()
+                                        .addComponent(lblDataInicio)
+                                        .addGap(6, 6, 6)
+                                        .addComponent(txtDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(panelFormLayout.createSequentialGroup()
+                                        .addComponent(lblPrioridade)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(comboBoxPrioridade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblDataTermino)
+                                .addGap(12, 12, 12)
+                                .addComponent(txtDataTermino, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         panelFormLayout.setVerticalGroup(
             panelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -140,6 +149,8 @@ public class DialogNovaTarefa extends javax.swing.JDialog implements IViewAdd {
                 .addGroup(panelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblPrioridade)
                     .addComponent(comboBoxPrioridade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(checkDone)
                 .addContainerGap())
         );
 
@@ -161,14 +172,15 @@ public class DialogNovaTarefa extends javax.swing.JDialog implements IViewAdd {
         panelContaiiner.setLayout(panelContaiinerLayout);
         panelContaiinerLayout.setHorizontalGroup(
             panelContaiinerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelContaiinerLayout.createSequentialGroup()
-                .addGroup(panelContaiinerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelContaiinerLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelContaiinerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(panelForm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(panelContaiinerLayout.createSequentialGroup()
-                        .addContainerGap(361, Short.MAX_VALUE)
+                        .addGap(0, 351, Short.MAX_VALUE)
                         .addComponent(btnCancelar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnSalvar))
-                    .addComponent(panelForm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(btnSalvar)))
                 .addContainerGap())
         );
         panelContaiinerLayout.setVerticalGroup(
@@ -191,9 +203,7 @@ public class DialogNovaTarefa extends javax.swing.JDialog implements IViewAdd {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(panelContaiiner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(panelContaiiner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -278,14 +288,13 @@ public class DialogNovaTarefa extends javax.swing.JDialog implements IViewAdd {
             showMessageDialog(null, "Preencha todos os campos corretamente", "Campo em branco ou inválidos", JOptionPane.WARNING_MESSAGE);
             return;
         }
-
         String titulo = this.txtNome.getText(), descricao = this.txtDescricao.getText();
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String dataInicio = dateFormat.format(this.txtDataInicio.getDate());
         String dataTermino = dateFormat.format(this.txtDataTermino.getDate());
         int prioridade = getPrioridadeId(this.comboBoxPrioridade.getSelectedItem().toString());
-
-        this.presenter.onSalve(titulo, descricao, dataInicio, dataTermino, prioridade, false);
+        boolean done = this.checkDone.isSelected();
+        this.presenter.onSalve(titulo, descricao, dataInicio, dataTermino, prioridade, done);
     }
 
     @Override
@@ -300,6 +309,7 @@ public class DialogNovaTarefa extends javax.swing.JDialog implements IViewAdd {
         this.txtDataInicio.setDate(null);
         this.txtDataTermino.setDate(null);
         this.comboBoxPrioridade.setSelectedIndex(0);
+        this.checkDone.setSelected(false);
     }
 
     @Override
@@ -321,6 +331,7 @@ public class DialogNovaTarefa extends javax.swing.JDialog implements IViewAdd {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnSalvar;
+    private javax.swing.JCheckBox checkDone;
     private javax.swing.JComboBox<String> comboBoxPrioridade;
     private javax.swing.JLabel lblDataInicio;
     private javax.swing.JLabel lblDataTermino;
