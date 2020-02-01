@@ -215,22 +215,17 @@ public class JanelaListagem extends javax.swing.JFrame implements IViewLIst {
         this.onNovo();
     }//GEN-LAST:event_btnNewActionPerformed
 
-    private void buscar() {
-        int filtroSelecionado = this.cbBox.getSelectedIndex();
-        this.presenter.find(this.txtBusca.getText(), this.cbBox.getSelectedIndex());
-
-    }
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
         // TODO add your handling code here:
         //System.err.println("> " + this.cbBox.getSelectedIndex());
-        this.buscar();
+        this.onFind();
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
     private void txtBuscaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscaKeyPressed
         // TODO add your handling code here:
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            this.buscar();
+            this.onFind();
         }
     }//GEN-LAST:event_txtBuscaKeyPressed
 
@@ -297,13 +292,15 @@ public class JanelaListagem extends javax.swing.JFrame implements IViewLIst {
 
     @Override
     public void onFind() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int filtroSelecionado = this.cbBox.getSelectedIndex();
+        this.presenter.find(this.txtBusca.getText(), this.cbBox.getSelectedIndex());
     }
 
     @Override
     public void onNovo() {
         DialogNovaTarefa dialogNovo = new DialogNovaTarefa(this, true);
         dialogNovo.setVisible(true);
+        this.onFind();
     }
 
     @Override
@@ -314,6 +311,7 @@ public class JanelaListagem extends javax.swing.JFrame implements IViewLIst {
         }
         if (JOptionPane.showConfirmDialog(null, "Deseja realmente remover a tarefa selecionada?", "Remoção", JOptionPane.YES_NO_OPTION) == 0) {
             this.presenter.excluir(this.tbTarefas.getSelectedRow());
+            this.onFind();
         }
     }
 
@@ -335,6 +333,7 @@ public class JanelaListagem extends javax.swing.JFrame implements IViewLIst {
 
         DialogAlterarTarefa dialogEdit = new DialogAlterarTarefa(this, true, tarefaMap);
         dialogEdit.setVisible(true);
+        this.onFind();
     }
 
     @Override
