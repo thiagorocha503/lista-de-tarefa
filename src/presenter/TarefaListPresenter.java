@@ -15,8 +15,8 @@ import java.util.logging.Logger;
 import model.bean.Tarefa;
 import model.bean.exception.TarefaDateException;
 import model.bean.exception.TarefaPrioridadeException;
-import model.dao.TarefaDAO;
 import model.tabelModel.TarefaTabelModel;
+import service.TarefaService;
 import util.Observer;
 import util.exception.DateConversionException;
 import view.interfaces.IViewLIst;
@@ -45,10 +45,11 @@ public class TarefaListPresenter implements IPresenterList, Observer {
         if(! this.view.showConfirmDialogExcluir()){// caso cancelar
             return;
         }
-        TarefaDAO dao = new TarefaDAO();
+        // Service DAO
+        TarefaService serviceDAO = new TarefaService();
         try {
             int id = Integer.parseInt(this.tarefaTabelModel.getValueAt(row, 0).toString());
-            dao.removeById(id);
+            serviceDAO.removeById(id);
             this.view.showMessageInfo("Sucesso", "Tarefa removida com sucesso");
         } catch (SQLException ex) {
             Logger.getLogger(TarefaListPresenter.class.getName()).log(Level.SEVERE, null, ex);
@@ -70,7 +71,7 @@ public class TarefaListPresenter implements IPresenterList, Observer {
     @Override
     public void alterar(int row) {
         if (row == -1) {
-            this.view.showMessageInfo("Seleeção", "Selecione uma tarefa");
+            this.view.showMessageInfo("Seleção", "Selecione uma tarefa");
             return;
         }
         this.view.openDialogEdit();
@@ -102,8 +103,8 @@ public class TarefaListPresenter implements IPresenterList, Observer {
     public void findByTitleAndIsDone(String title, boolean done) {
         ArrayList<Tarefa> tasks;
         try {
-            TarefaDAO dao = new TarefaDAO();
-            tasks = dao.findByTitleAndIsDone(title, done);
+            TarefaService serviceDAO = new TarefaService();
+            tasks = serviceDAO.findByTitleAndIsDone(title, done);
             this.tarefaTabelModel.updateTable(tasks);
         } catch (SQLException ex) {
             Logger.getLogger(TarefaListPresenter.class.getName()).log(Level.SEVERE, null, ex);
@@ -127,8 +128,8 @@ public class TarefaListPresenter implements IPresenterList, Observer {
     public void findByTitle(String title) {
         ArrayList<Tarefa> tasks;
         try {
-            TarefaDAO dao = new TarefaDAO();
-            tasks = dao.findByTitle(title);
+            TarefaService serviceDAO = new TarefaService();
+            tasks = serviceDAO.findByTitle(title);
             this.tarefaTabelModel.updateTable(tasks);
         } catch (SQLException ex) {
             Logger.getLogger(TarefaListPresenter.class.getName()).log(Level.SEVERE, null, ex);
@@ -147,12 +148,12 @@ public class TarefaListPresenter implements IPresenterList, Observer {
     @Override
     public void update(Object o) {
         System.err.println("Algo mudou!");
-        TarefaDAO dao = new TarefaDAO();
+        TarefaService serviceDAO = new TarefaService();
         Map<String, Object> valores = (HashMap) o;
         try {
-            Tarefa task = dao.getById((Integer) valores.get("id"));
+            Tarefa task = serviceDAO.getById((Integer) valores.get("id"));
             task.setDone((boolean) valores.get("done"));
-            dao.update(task);
+            serviceDAO.update(task);
         } catch (SQLException ex) {
             Logger.getLogger(TarefaAddPresenterImp.class.getName()).log(Level.SEVERE, null, ex);
             this.view.showMessageErro("Erro", "Tabel model erro: " + ex);

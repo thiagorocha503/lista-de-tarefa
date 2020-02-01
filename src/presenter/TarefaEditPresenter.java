@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 import model.bean.Tarefa;
 import model.bean.exception.TarefaDateException;
 import model.bean.exception.TarefaPrioridadeException;
-import model.dao.TarefaDAO;
+import service.TarefaService;
 import util.DateConversion;
 import util.exception.DateConversionException;
 import view.interfaces.IViewEdit;
@@ -37,8 +37,9 @@ public class TarefaEditPresenter implements IPresenterEdit {
             task.setDataTermino(DateConversion.dateFormtToCalendar(dataTermino));
             task.setPrioridade(prioridade);
             task.setDone(done);
-            TarefaDAO dao = new TarefaDAO();
-            dao.update(task);
+            // service DAO
+            TarefaService serviceDAO = new TarefaService();
+            serviceDAO.update(task);
             this.view.showMessageInfo("Alteração", "Tarefa atualizada com sucesso");
             this.view.closeWindows();
         } catch (DateConversionException ex) {
