@@ -5,37 +5,40 @@
  */
 package view;
 
-import controller.TarefaController;
+import controller.TarefaListPresenter;
+import controller.interfaces.IPresenterList;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JOptionPane;
 import model.tabelModel.TarefaTabelModel;
 import model.tabelModel.TarefaTabelRenderer;
+import view.interfaces.IViewLIst;
 
 /**
  *
  * @author thiago
  */
-public class JanelaListagem extends javax.swing.JFrame {
+public class JanelaListagem extends javax.swing.JFrame implements IViewLIst {
 
     /**
      * Creates new form JanelaListagem
      */
-    private final TarefaController controller;
+    //private final TarefaController controller;
+    private final IPresenterList presenter;
 
     public JanelaListagem() {
         initComponents();
         TarefaTabelModel tarefaTabelModel = new TarefaTabelModel();
         this.tbTarefas.setModel(tarefaTabelModel);
-        this.controller = new TarefaController(tarefaTabelModel);
+        this.presenter = new TarefaListPresenter(tarefaTabelModel);
+        this.presenter.setView(this);
         this.tbTarefas.setDefaultRenderer(Object.class, new TarefaTabelRenderer());
 
     }
 
-
     public void initilazeTable() {
-        this.controller.findByTitleAndIsDone("", false);
+        this.presenter.find("", 0);
 
     }
 
@@ -146,6 +149,11 @@ public class JanelaListagem extends javax.swing.JFrame {
         });
 
         btnExit.setText("Sair");
+        btnExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExitActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelContainerLayout = new javax.swing.GroupLayout(panelContainer);
         panelContainer.setLayout(panelContainerLayout);
@@ -204,24 +212,18 @@ public class JanelaListagem extends javax.swing.JFrame {
 
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
         // TODO add your handling code here:
-        DialogNovaTarefa dialogNovo = new DialogNovaTarefa(this, true);
-        dialogNovo.setVisible(true);
+        this.onNovo();
     }//GEN-LAST:event_btnNewActionPerformed
 
     private void buscar() {
         int filtroSelecionado = this.cbBox.getSelectedIndex();
-        if (filtroSelecionado == 0) {
-            this.controller.findByTitleAndIsDone(this.txtBusca.getText(), false);
-        } else if (filtroSelecionado == 1) {
-            this.controller.findByTitleAndIsDone(this.txtBusca.getText(), true);
-        } else if (filtroSelecionado == 2) {
-            this.controller.findByTitle(this.txtBusca.getText());
-        }
+        this.presenter.find(this.txtBusca.getText(), this.cbBox.getSelectedIndex());
+
     }
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
         // TODO add your handling code here:
-        System.err.println("> " + this.cbBox.getSelectedIndex());
+        //System.err.println("> " + this.cbBox.getSelectedIndex());
         this.buscar();
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
@@ -234,35 +236,20 @@ public class JanelaListagem extends javax.swing.JFrame {
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
-        if (this.tbTarefas.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(null, "Selecione um linha da tabela");
-            return;
-        }
-        if (JOptionPane.showConfirmDialog(null, "Deseja realmente remover a tarefa selecionada?", "Remoção", JOptionPane.YES_NO_OPTION) == 0) {
-            this.controller.remover(this.tbTarefas.getSelectedRow());
-        }
+        this.onExcluir();
+
 
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        // TODO add your handling code here:
-        if (this.tbTarefas.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(null, "Selecione um linha");
-            return;
-        }
-        int row = this.tbTarefas.getSelectedRow();
-        Map tarefaMap = new HashMap();
-        tarefaMap.put("id",this.tbTarefas.getValueAt(row, 0));
-        tarefaMap.put("title", this.tbTarefas.getValueAt(row, 1));
-        tarefaMap.put("description", this.tbTarefas.getValueAt(row, 2));
-        tarefaMap.put("dateStart", this.tbTarefas.getValueAt(row, 3));
-        tarefaMap.put("dateEnd", this.tbTarefas.getValueAt(row, 4));
-        tarefaMap.put("priority", this.tbTarefas.getValueAt(row, 5));
-        tarefaMap.put("done", this.tbTarefas.getValueAt(row, 6));
-        
-        DialogAlterarTarefa dialogEdit = new DialogAlterarTarefa(this, true, tarefaMap);
-        dialogEdit.setVisible(true);
+        this.onALterar();
+
     }//GEN-LAST:event_btnEditActionPerformed
+
+    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
+        // TODO add your handling code here:
+        this.onSair();
+    }//GEN-LAST:event_btnExitActionPerformed
 
     /**
      * @param args the command line arguments
@@ -307,4 +294,71 @@ public class JanelaListagem extends javax.swing.JFrame {
     private javax.swing.JTable tbTarefas;
     private javax.swing.JTextField txtBusca;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void onFind() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void onNovo() {
+        DialogNovaTarefa dialogNovo = new DialogNovaTarefa(this, true);
+        dialogNovo.setVisible(true);
+    }
+
+    @Override
+    public void onExcluir() {
+        if (this.tbTarefas.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(null, "Selecione um linha da tabela");
+            return;
+        }
+        if (JOptionPane.showConfirmDialog(null, "Deseja realmente remover a tarefa selecionada?", "Remoção", JOptionPane.YES_NO_OPTION) == 0) {
+            this.presenter.excluir(this.tbTarefas.getSelectedRow());
+        }
+    }
+
+    @Override
+    public void onALterar() {
+        if (this.tbTarefas.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(null, "Selecione um linha");
+            return;
+        }
+        int row = this.tbTarefas.getSelectedRow();
+        Map tarefaMap = new HashMap();
+        tarefaMap.put("id", this.tbTarefas.getValueAt(row, 0));
+        tarefaMap.put("title", this.tbTarefas.getValueAt(row, 1));
+        tarefaMap.put("description", this.tbTarefas.getValueAt(row, 2));
+        tarefaMap.put("dateStart", this.tbTarefas.getValueAt(row, 3));
+        tarefaMap.put("dateEnd", this.tbTarefas.getValueAt(row, 4));
+        tarefaMap.put("priority", this.tbTarefas.getValueAt(row, 5));
+        tarefaMap.put("done", this.tbTarefas.getValueAt(row, 6));
+
+        DialogAlterarTarefa dialogEdit = new DialogAlterarTarefa(this, true, tarefaMap);
+        dialogEdit.setVisible(true);
+    }
+
+    @Override
+    public void onSair() {
+        this.presenter.sair();
+    }
+
+    @Override
+    public void closeWindown() {
+        this.dispose();
+    }
+
+    @Override
+    public void showMessageWarring(String title, String info) {
+        JOptionPane.showMessageDialog(null, info, title, JOptionPane.WARNING_MESSAGE);
+    }
+
+    @Override
+    public void showMessageErro(String title, String erro) {
+        JOptionPane.showMessageDialog(null, erro, title, JOptionPane.ERROR_MESSAGE);
+    }
+
+    @Override
+    public void showMessageInfo(String title, String info) {
+        JOptionPane.showMessageDialog(null, info, title, JOptionPane.INFORMATION_MESSAGE);
+    }
 }

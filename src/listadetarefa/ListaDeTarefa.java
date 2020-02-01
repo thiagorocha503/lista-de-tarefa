@@ -45,6 +45,7 @@ public class ListaDeTarefa {
         try{
             winListagem.initilazeTable();
             winListagem.setVisible(true);
+            winListagem.initilazeTable();
         } catch(Exception ex){
             JOptionPane.showMessageDialog(null,"Erro inesperado: "+ex,"Erro",JOptionPane.ERROR_MESSAGE);
             winListagem.dispose();

@@ -48,16 +48,13 @@ public class TarefaEditPresenter implements IPresenterEdit {
             //Logger.getLogger(TarefaController.class.getName()).log(Level.SEVERE, null, ex);
             this.view.showMessageErro("Data inválida", "Datas de termino menor que data de inicio");
         } catch (NullPointerException ex) {
-            //Logger.getLogger(TarefaController.class.getName()).log(Level.SEVERE, null, ex);
             this.view.showMessageErro("Erro", "Erro: " + ex);
         } catch (SQLException ex) {
-            //Logger.getLogger(TarefaController.class.getName()).log(Level.SEVERE, null, ex);
             this.view.showMessageErro("Banco de dados", "Erro no banco de dados: " + ex);
         } catch (TarefaPrioridadeException ex) {
-            //Logger.getLogger(TarefaController.class.getName()).log(Level.SEVERE, null, ex);
             this.view.showMessageErro("Prioridade inválida", "Prioridade inserida inválida");
         } catch (Exception ex) {
-            Logger.getLogger(TarefaController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TarefaEditPresenter.class.getName()).log(Level.SEVERE, null, ex);
             this.view.showMessageErro("Erro", "Erro inesperado: " + ex);
         }
     }

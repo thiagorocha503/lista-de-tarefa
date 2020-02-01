@@ -42,22 +42,22 @@ public class TarefaAddPresenterImp implements IPresenterAdd {
                 this.view.cleanField();
                 this.view.showMessageInfo("Sucesso", "Tarefa salva com sucesso!");
             } catch (DateConversionException ex) {
-                Logger.getLogger(TarefaController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(TarefaAddPresenterImp.class.getName()).log(Level.SEVERE, null, ex);
                 this.view.showMessageErro("Data inválida", "Data inválida");
             } catch (TarefaDateException ex) {
-                Logger.getLogger(TarefaController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(TarefaAddPresenterImp.class.getName()).log(Level.SEVERE, null, ex);
                 this.view.showMessageErro("Datas inválida", "Datas de termino menor que data de inicio");
             } catch (NullPointerException ex) {
-                Logger.getLogger(TarefaController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(TarefaAddPresenterImp.class.getName()).log(Level.SEVERE, null, ex);
                 this.view.showMessageErro("Erro", "Erro: " + ex);
             } catch (SQLException ex) {
-                Logger.getLogger(TarefaController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(TarefaAddPresenterImp.class.getName()).log(Level.SEVERE, null, ex);
                 this.view.showMessageErro("Banco de dados", "Erro: " + ex);
             } catch (TarefaPrioridadeException ex) {
-                Logger.getLogger(TarefaController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(TarefaAddPresenterImp.class.getName()).log(Level.SEVERE, null, ex);
                 this.view.showMessageErro("Prioridade inválida", "Prioridade inserida inválida");
             } catch (Exception ex) {
-                Logger.getLogger(TarefaController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(TarefaAddPresenterImp.class.getName()).log(Level.SEVERE, null, ex);
                 this.view.showMessageErro("Erro", "Erro inesperado: " + ex);
             }
 
