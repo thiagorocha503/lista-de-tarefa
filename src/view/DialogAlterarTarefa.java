@@ -5,77 +5,74 @@
  */
 package view;
 
-import controller.TarefaController;
+import presenter.TarefaEditPresenter;
+import presenter.interfaces.IPresenterEdit;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import model.tabelModel.TarefaTabelModel;
+import view.interfaces.IViewEdit;
 
 /**
  *
  * @author thiago
  */
-public class DialogAlterarTarefa extends javax.swing.JDialog {
+public class DialogAlterarTarefa extends javax.swing.JDialog implements IViewEdit {
 
-    private final TarefaController controller;
-    private final int row;
-    private final JTable tabela;
-    private final int id;
+    private final IPresenterEdit presenter;
+    private final Map tarefaMap;
 
     /**
      * Creates new form DialogAlterarTarefa
+     *
      * @param parent
      * @param modal
-     * @param controller
-     * @param row
-     * @param tabela
+     * @param tarefaMap
      */
-    public DialogAlterarTarefa(java.awt.Frame parent, boolean modal, TarefaController controller, int row, JTable tabela) {
+    @SuppressWarnings("LeakingThisInConstructor")
+    public DialogAlterarTarefa(java.awt.Frame parent, boolean modal, Map tarefaMap) {
         super(parent, modal);
-        this.controller = controller;
-        this.row = row;
-        this.tabela = tabela;
-        this.id = (int)tabela.getValueAt(row, 0);
         initComponents();
+        this.presenter = new TarefaEditPresenter();
+        this.presenter.setView(this);
+        this.tarefaMap = tarefaMap;
         this.preencheCampos();
-        //this.jDateChooser2.
     }
-    
-    
-    private void preencheCampos(){
-        this.txtNome.setText(this.tabela.getValueAt(row, 1).toString());
-        this.txtDescricao.setText(this.tabela.getValueAt(row, 2).toString());
+
+    private void preencheCampos() {
+        this.txtNome.setText(this.tarefaMap.get("title").toString());
+        this.txtDescricao.setText(this.tarefaMap.get("description").toString());
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         try {
-            this.txtDataInicio.setDate(format.parse(this.tabela.getValueAt(row, 3).toString()));
-            this.txtDataTermino.setDate(format.parse(this.tabela.getValueAt(row, 4).toString()));
+            this.txtDataInicio.setDate(format.parse(this.tarefaMap.get("dateStart").toString()));
+            this.txtDataTermino.setDate(format.parse(this.tarefaMap.get("dateEnd").toString()));
         } catch (ParseException ex) {
             Logger.getLogger(DialogAlterarTarefa.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        this.checkDone.setSelected((boolean) this.tabela.getValueAt(row, 6));
-        String prioridade = this.tabela.getValueAt(row, 5).toString();
-        switch (prioridade) {
-            case "NORMAL":
-                this.comboBoxPrioridade.setSelectedIndex(0);
-                break;
-            case "BAIXA":
-                this.comboBoxPrioridade.setSelectedIndex(1);      
-                break;
-            case "ALTA":
-                this.comboBoxPrioridade.setSelectedIndex(2);
-                break;
-            default:
-                break;
-        }
-        
-        
+
+        this.checkDone.setSelected((boolean) this.tarefaMap.get("done"));
+        String prioridade = this.tarefaMap.get("priority").toString();
+        this.comboBoxPrioridade.setSelectedIndex(getPrioritySelecionAsInt(this.tarefaMap.get("priority").toString()));
+
     }
-    
+
+    public int getPrioritySelecionAsInt(String text) {
+        switch (text) {
+            case "NORMAL":
+                return 0;
+            case "BAIXA":
+                return 1;
+            case "ALTA":
+                return 2;
+            default:
+                throw new RuntimeException("Prioridade inválida: " + text);
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -178,9 +175,10 @@ public class DialogAlterarTarefa extends javax.swing.JDialog {
                 .addGroup(panelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelFormLayout.createSequentialGroup()
                         .addGroup(panelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(lblDataInicio)
-                                .addComponent(lblDataTermino))
+                            .addGroup(panelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(lblDataTermino)
+                                .addGroup(panelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblDataInicio)))
                             .addComponent(txtDataTermino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -253,28 +251,17 @@ public class DialogAlterarTarefa extends javax.swing.JDialog {
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
-        this.dispose();
+        this.presenter.onCancelar();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         // TODO add your handling code here:
-        if (this.isFieldEmpty()){
-            JOptionPane.showMessageDialog(null, "Prrencha todos os campos");
-            return;
-        }
-        String titulo = this.txtNome.getText();
-        String descricao = this.txtDescricao.getText();
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        String dataInicio = dateFormat.format(this.txtDataInicio.getDate());
-        String dataTermino = dateFormat.format(this.txtDataTermino.getDate());
-        int prioridade = this.getPrioridadeId(this.comboBoxPrioridade.getSelectedItem().toString());
-        boolean done = this.checkDone.isSelected();
-        this.controller.update(this.id, titulo, descricao, dataInicio, dataTermino, prioridade, done);
-        
+        this.onAlterar();
+
     }//GEN-LAST:event_btnSalvarActionPerformed
 
-    public int getPrioridadeId(String text){
-        switch(text){
+    public int getPrioridadeId(String text) {
+        switch (text) {
             case "Alta":
                 return 1;
             case "Normal":
@@ -285,6 +272,7 @@ public class DialogAlterarTarefa extends javax.swing.JDialog {
                 throw new RuntimeException("Prioridade text inválido");
         }
     }
+
     /**
      * @param args the command line arguments
      */
@@ -305,12 +293,20 @@ public class DialogAlterarTarefa extends javax.swing.JDialog {
             java.util.logging.Logger.getLogger(DialogAlterarTarefa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
+
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(() -> {
-            DialogAlterarTarefa dialog = new DialogAlterarTarefa(new javax.swing.JFrame(), true, new TarefaController(new TarefaTabelModel()), 0, new JTable());
+            Map tarefaMap = new HashMap();
+            tarefaMap.put("id", 1);
+            tarefaMap.put("title", "título test");
+            tarefaMap.put("description", "descrição test");
+            tarefaMap.put("dateStart", "10/01/2020");
+            tarefaMap.put("dateEnd", "20/01/2020");
+            tarefaMap.put("priority", "NORMAL");
+            tarefaMap.put("done", false);
+            DialogAlterarTarefa dialog = new DialogAlterarTarefa(new javax.swing.JFrame(), true, tarefaMap);
             dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                 @Override
                 public void windowClosing(java.awt.event.WindowEvent e) {
@@ -320,22 +316,67 @@ public class DialogAlterarTarefa extends javax.swing.JDialog {
             dialog.setVisible(true);
         });
     }
-    
 
-    public boolean isFieldEmpty(){
+    public boolean isFieldEmpty() {
         Boolean[] is_full = {this.txtNome.getText().equals(""),
-        this.txtDescricao.getText().equals(""),
-        this.txtDataInicio.getDate()==null,
-        this.txtDataTermino.getDate()==null
-                };
+            this.txtDescricao.getText().equals(""),
+            this.txtDataInicio.getDate() == null,
+            this.txtDataTermino.getDate() == null
+        };
         for (Boolean isEmpty : is_full) {
-            if(isEmpty){
-              return true;  
+            if (isEmpty) {
+                return true;
             }
-        }      
+        }
         return false;
     }
-    
+
+    @Override
+    public void onAlterar() {
+        if (this.isFieldEmpty()) {
+            JOptionPane.showMessageDialog(null, "Campo em branco ou inválido", "Preencha todos os campos", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        String titulo = this.txtNome.getText();
+        String descricao = this.txtDescricao.getText();
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String dataInicio = dateFormat.format(this.txtDataInicio.getDate());
+        String dataTermino = dateFormat.format(this.txtDataTermino.getDate());
+        int prioridade = this.getPrioridadeId(this.comboBoxPrioridade.getSelectedItem().toString());
+        boolean done = this.checkDone.isSelected();
+
+        this.presenter.alterar((Integer) this.tarefaMap.get("id"), titulo, descricao, dataInicio, dataTermino, prioridade, done);
+
+    }
+
+    @Override
+    public void onCancelar() {
+        this.presenter.onCancelar();
+    }
+
+    @Override
+    public void cleanField() {
+        this.txtNome.setText("");
+        this.txtDescricao.setText("");
+        this.txtDataInicio.setDate(null);
+        this.txtDataTermino.setDate(null);
+        this.comboBoxPrioridade.setSelectedIndex(0);
+    }
+
+    @Override
+    public void closeWindows() {
+        this.dispose();
+    }
+
+    @Override
+    public void showMessageInfo(String title, String info) {
+        JOptionPane.showMessageDialog(null, info, title, JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    @Override
+    public void showMessageErro(String title, String erro) {
+        JOptionPane.showMessageDialog(null, erro, title, JOptionPane.ERROR_MESSAGE);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
@@ -356,4 +397,5 @@ public class DialogAlterarTarefa extends javax.swing.JDialog {
     private javax.swing.JTextArea txtDescricao;
     private javax.swing.JTextField txtNome;
     // End of variables declaration//GEN-END:variables
+
 }
