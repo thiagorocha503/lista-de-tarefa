@@ -5,8 +5,8 @@
  */
 package view;
 
-import controller.TarefaEditPresenter;
-import controller.interfaces.IPresenterEdit;
+import presenter.TarefaEditPresenter;
+import presenter.interfaces.IPresenterEdit;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

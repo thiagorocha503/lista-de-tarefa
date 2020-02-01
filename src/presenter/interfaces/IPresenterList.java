@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller.interfaces;
+package presenter.interfaces;
 
 import view.interfaces.IViewLIst;
 
@@ -14,7 +14,8 @@ import view.interfaces.IViewLIst;
 public interface IPresenterList {
     
     void excluir(int row);
-    void alterar();
+    void alterar(int row);
+    void adicionar();
     void find(String title, int filtro);
     void sair();
     void setView(IViewLIst view);

@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller;
+package presenter;
 
-import controller.interfaces.IPresenterList;
+import presenter.interfaces.IPresenterList;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,43 +25,61 @@ import view.interfaces.IViewLIst;
  *
  * @author thiago
  */
-public class TarefaListPresenter implements IPresenterList, Observer{
-    
+public class TarefaListPresenter implements IPresenterList, Observer {
+
     private final TarefaTabelModel tarefaTabelModel;
     private IViewLIst view;
 
     public TarefaListPresenter(TarefaTabelModel tabelModel) {
         this.tarefaTabelModel = tabelModel;
         this.tarefaTabelModel.addObserver(this);
-        
+
     }
-    
+
     @Override
     public void excluir(int row) {
-         TarefaDAO dao = new TarefaDAO();
+        if (row == -1) {
+            this.view.showMessageInfo("Seleção", "Selecione uma tarefa");
+            return;
+        }
+        if(! this.view.showConfirmDialogExcluir()){// caso cancelar
+            return;
+        }
+        TarefaDAO dao = new TarefaDAO();
         try {
             int id = Integer.parseInt(this.tarefaTabelModel.getValueAt(row, 0).toString());
             dao.removeById(id);
             this.view.showMessageInfo("Sucesso", "Tarefa removida com sucesso");
         } catch (SQLException ex) {
             Logger.getLogger(TarefaListPresenter.class.getName()).log(Level.SEVERE, null, ex);
-            this.view.showMessageErro("Erro", "Erro ao excluir: "+ex.toString());
-        } catch(NumberFormatException ex){
-            this.view.showMessageErro("Erro", "Id inválido "+this.tarefaTabelModel.getValueAt(row, 0).toString());
-        }catch(Exception ex){
-            this.view.showMessageErro("Erro", "Erro inesperado: "+ex.toString());      
+            this.view.showMessageErro("Erro", "Erro ao excluir: " + ex.toString());
+        } catch (NumberFormatException ex) {
+            this.view.showMessageErro("Erro", "Id inválido " + this.tarefaTabelModel.getValueAt(row, 0).toString());
+        } catch (Exception ex) {
+            this.view.showMessageErro("Erro", "Erro inesperado: " + ex.toString());
         }
-        
+
     }
 
     @Override
-    public void alterar() {
-        
+    public void adicionar() {
+        this.view.openDialogAdd();
+
+    }
+
+    @Override
+    public void alterar(int row) {
+        if (row == -1) {
+            this.view.showMessageInfo("Seleeção", "Selecione uma tarefa");
+            return;
+        }
+        this.view.openDialogEdit();
+
     }
 
     @Override
     public void find(String title, int filtroSelecionado) {
-         if (filtroSelecionado == 0) {
+        if (filtroSelecionado == 0) {
             this.findByTitleAndIsDone(title, false);
         } else if (filtroSelecionado == 1) {
             this.findByTitleAndIsDone(title, true);
@@ -89,7 +107,7 @@ public class TarefaListPresenter implements IPresenterList, Observer{
             this.tarefaTabelModel.updateTable(tasks);
         } catch (SQLException ex) {
             Logger.getLogger(TarefaListPresenter.class.getName()).log(Level.SEVERE, null, ex);
-            this.view.showMessageErro("Erro", "Erro no banco de dados: "+ex);                 
+            this.view.showMessageErro("Erro", "Erro no banco de dados: " + ex);
         } catch (TarefaDateException ex) {
             Logger.getLogger(TarefaListPresenter.class.getName()).log(Level.SEVERE, null, ex);
             this.view.showMessageErro("Inconsistência de dados", "Data de termino menor que de inicio " + ex);
@@ -98,8 +116,8 @@ public class TarefaListPresenter implements IPresenterList, Observer{
             this.view.showMessageErro("Inconsistência de dados", "Data inválida: " + ex.getDataInvalida());
         } catch (TarefaPrioridadeException ex) {
             Logger.getLogger(TarefaListPresenter.class.getName()).log(Level.SEVERE, null, ex);
-            this.view.showMessageErro("Inconsistência de dados", "prioridade inválida: "+ex.toString());
-        }catch (Exception ex) {
+            this.view.showMessageErro("Inconsistência de dados", "prioridade inválida: " + ex.toString());
+        } catch (Exception ex) {
             Logger.getLogger(TarefaListPresenter.class.getName()).log(Level.SEVERE, null, ex);
             this.view.showMessageErro("Erro inesperado", ex.toString());
         }
@@ -107,7 +125,7 @@ public class TarefaListPresenter implements IPresenterList, Observer{
 
     @Override
     public void findByTitle(String title) {
-          ArrayList<Tarefa> tasks;
+        ArrayList<Tarefa> tasks;
         try {
             TarefaDAO dao = new TarefaDAO();
             tasks = dao.findByTitle(title);
@@ -122,10 +140,10 @@ public class TarefaListPresenter implements IPresenterList, Observer{
             Logger.getLogger(TarefaListPresenter.class.getName()).log(Level.SEVERE, null, ex);
             this.view.showMessageErro("Inconsitência de dados", ex.toString());
         } catch (Exception ex) {
-            this.view.showMessageErro("Erro inesperado", "Erro: "+ex.toString());
+            this.view.showMessageErro("Erro inesperado", "Erro: " + ex.toString());
         }
     }
-    
+
     @Override
     public void update(Object o) {
         System.err.println("Algo mudou!");
@@ -137,9 +155,9 @@ public class TarefaListPresenter implements IPresenterList, Observer{
             dao.update(task);
         } catch (SQLException ex) {
             Logger.getLogger(TarefaAddPresenterImp.class.getName()).log(Level.SEVERE, null, ex);
-            this.view.showMessageErro("Erro","Tabel model erro: "+ex);
+            this.view.showMessageErro("Erro", "Tabel model erro: " + ex);
         } catch (NullPointerException ex) {
-            this.view.showMessageErro("Erro","Tabel model erro: "+ex);
+            this.view.showMessageErro("Erro", "Tabel model erro: " + ex);
         }
     }
 }

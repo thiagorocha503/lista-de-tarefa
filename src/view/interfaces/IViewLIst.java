@@ -17,6 +17,9 @@ public interface IViewLIst {
     void onALterar();
     void onSair();
     void closeWindown();
+    void openDialogEdit();
+    void openDialogAdd();
+    boolean showConfirmDialogExcluir();
     void showMessageWarring(String title, String warring);
     void showMessageErro(String title, String erro);
     void showMessageInfo(String title, String info);

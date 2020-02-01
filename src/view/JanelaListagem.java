@@ -5,8 +5,8 @@
  */
 package view;
 
-import controller.TarefaListPresenter;
-import controller.interfaces.IPresenterList;
+import presenter.TarefaListPresenter;
+import presenter.interfaces.IPresenterList;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,6 +27,7 @@ public class JanelaListagem extends javax.swing.JFrame implements IViewLIst {
     //private final TarefaController controller;
     private final IPresenterList presenter;
 
+    @SuppressWarnings("LeakingThisInConstructor")
     public JanelaListagem() {
         initComponents();
         TarefaTabelModel tarefaTabelModel = new TarefaTabelModel();
@@ -298,42 +299,18 @@ public class JanelaListagem extends javax.swing.JFrame implements IViewLIst {
 
     @Override
     public void onNovo() {
-        DialogNovaTarefa dialogNovo = new DialogNovaTarefa(this, true);
-        dialogNovo.setVisible(true);
-        this.onFind();
+        this.presenter.adicionar();
     }
 
     @Override
     public void onExcluir() {
-        if (this.tbTarefas.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(null, "Selecione um linha da tabela");
-            return;
-        }
-        if (JOptionPane.showConfirmDialog(null, "Deseja realmente remover a tarefa selecionada?", "Remoção", JOptionPane.YES_NO_OPTION) == 0) {
-            this.presenter.excluir(this.tbTarefas.getSelectedRow());
-            this.onFind();
-        }
+        this.presenter.excluir(this.tbTarefas.getSelectedRow());
     }
 
     @Override
     public void onALterar() {
-        if (this.tbTarefas.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(null, "Selecione um linha");
-            return;
-        }
-        int row = this.tbTarefas.getSelectedRow();
-        Map tarefaMap = new HashMap();
-        tarefaMap.put("id", this.tbTarefas.getValueAt(row, 0));
-        tarefaMap.put("title", this.tbTarefas.getValueAt(row, 1));
-        tarefaMap.put("description", this.tbTarefas.getValueAt(row, 2));
-        tarefaMap.put("dateStart", this.tbTarefas.getValueAt(row, 3));
-        tarefaMap.put("dateEnd", this.tbTarefas.getValueAt(row, 4));
-        tarefaMap.put("priority", this.tbTarefas.getValueAt(row, 5));
-        tarefaMap.put("done", this.tbTarefas.getValueAt(row, 6));
-
-        DialogAlterarTarefa dialogEdit = new DialogAlterarTarefa(this, true, tarefaMap);
-        dialogEdit.setVisible(true);
-        this.onFind();
+        this.presenter.alterar(this.tbTarefas.getSelectedRow());
+        
     }
 
     @Override
@@ -345,7 +322,12 @@ public class JanelaListagem extends javax.swing.JFrame implements IViewLIst {
     public void closeWindown() {
         this.dispose();
     }
-
+    @Override
+    public boolean showConfirmDialogExcluir(){
+        int result = JOptionPane.showConfirmDialog(null, "Deseja realmente remover a tarefa selecionada?", "Remoção", JOptionPane.YES_NO_OPTION);
+        return result == 0;
+    }
+    
     @Override
     public void showMessageWarring(String title, String info) {
         JOptionPane.showMessageDialog(null, info, title, JOptionPane.WARNING_MESSAGE);
@@ -359,5 +341,28 @@ public class JanelaListagem extends javax.swing.JFrame implements IViewLIst {
     @Override
     public void showMessageInfo(String title, String info) {
         JOptionPane.showMessageDialog(null, info, title, JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    @Override
+    public void openDialogEdit() {
+        int row = this.tbTarefas.getSelectedRow();
+        Map tarefaMap = new HashMap();
+        tarefaMap.put("id", this.tbTarefas.getValueAt(row, 0));
+        tarefaMap.put("title", this.tbTarefas.getValueAt(row, 1));
+        tarefaMap.put("description", this.tbTarefas.getValueAt(row, 2));
+        tarefaMap.put("dateStart", this.tbTarefas.getValueAt(row, 3));
+        tarefaMap.put("dateEnd", this.tbTarefas.getValueAt(row, 4));
+        tarefaMap.put("priority", this.tbTarefas.getValueAt(row, 5));
+        tarefaMap.put("done", this.tbTarefas.getValueAt(row, 6));
+        DialogAlterarTarefa dialogEdit = new DialogAlterarTarefa(this, true, tarefaMap);
+        dialogEdit.setVisible(true);
+        this.onFind();
+    }
+
+    @Override
+    public void openDialogAdd() {
+        DialogNovaTarefa dialogNovo = new DialogNovaTarefa(this, true);
+        dialogNovo.setVisible(true);
+        this.onFind();
     }
 }
