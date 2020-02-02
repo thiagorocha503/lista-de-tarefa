@@ -22,6 +22,7 @@ import io.github.thiagorocha503.listadetarefa.util.exception.DateConversionExcep
 import io.github.thiagorocha503.listadetarefa.model.bean.exception.TarefaDateException;
 import io.github.thiagorocha503.listadetarefa.model.bean.exception.TarefaPrioridadeException;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -41,9 +42,11 @@ public class TarefaDAOTest {
      * Apagar tabela para novos testes
      *
      */
-    public TarefaDAOTest(){
+    @BeforeAll
+    void config(){
         verificaPastaData();
     }
+    
     public void resetDataBase() {
         String path = ConnectionFatory.getPATH();
         //System.err.println(">> " + path);
