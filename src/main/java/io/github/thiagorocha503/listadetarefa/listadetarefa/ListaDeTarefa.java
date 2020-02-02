@@ -18,7 +18,7 @@ public class ListaDeTarefa {
     
     
     public static void verificaPastaData(){
-        String path = new File("").getAbsolutePath()+"\\data";
+        String path = new File("").getAbsolutePath()+"/data";
         File data = new File(path);
         if(!data.exists()){
             data.mkdirs();
