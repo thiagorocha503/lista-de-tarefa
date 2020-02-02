@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author thiago
  */
-public class TarefaDAOTest {
+public class TarefaDAOTes {
 
     final String TITULO = "titulo";
     final String DESCRIPTCION = "texto";
@@ -59,7 +59,7 @@ public class TarefaDAOTest {
                 stmt = conn.prepareStatement(sql);
                 stmt.executeUpdate();
             } catch (SQLException ex) {
-                Logger.getLogger(TarefaDAOTest.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(TarefaDAOTes.class.getName()).log(Level.SEVERE, null, ex);
                 Assertions.fail("Erro ao apagar tabela");
             }
         } else {
@@ -76,16 +76,16 @@ public class TarefaDAOTest {
             task.setDataInicio(DateConversion.sqlDateToCalendar(DATA_INICIO));
             task.setDataTermino(DateConversion.sqlDateToCalendar(DATA_TERMINO));
         } catch (DateConversionException | TarefaDateException ex) {
-            Logger.getLogger(TarefaDAOTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TarefaDAOTes.class.getName()).log(Level.SEVERE, null, ex);
             Assertions.fail("Erro de data");
         } catch (NullPointerException ex) {
-            Logger.getLogger(TarefaDAOTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TarefaDAOTes.class.getName()).log(Level.SEVERE, null, ex);
             Assertions.fail("null error");
         }
         try {
             task.setPrioridade(PRIORIDADE);
         } catch (TarefaPrioridadeException ex) {
-            Logger.getLogger(TarefaDAOTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TarefaDAOTes.class.getName()).log(Level.SEVERE, null, ex);
             Assertions.fail("Prioridade inválida");
         }
         task.setDone(IS_DONE);
@@ -101,7 +101,7 @@ public class TarefaDAOTest {
         try {
             dao.insert(task);
         } catch (SQLException ex) {
-            Logger.getLogger(TarefaDAOTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TarefaDAOTes.class.getName()).log(Level.SEVERE, null, ex);
         }
         dao = new TarefaDAO();
         task = dao.getById(1);
@@ -121,7 +121,7 @@ public class TarefaDAOTest {
             task = dao.getById(1);
             Assertions.assertNotNull(task);
         } catch (SQLException ex) {
-            Logger.getLogger(TarefaDAOTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TarefaDAOTes.class.getName()).log(Level.SEVERE, null, ex);
             Assertions.fail();
         }
 
@@ -132,7 +132,7 @@ public class TarefaDAOTest {
             Assertions.assertEquals(DateConversion.calendarToDateSQL(task.getDataInicio()), DATA_INICIO);
             Assertions.assertEquals(DateConversion.calendarToDateSQL(task.getDataTermino()), DATA_TERMINO);
         } catch (Exception ex) {
-            Logger.getLogger(TarefaDAOTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TarefaDAOTes.class.getName()).log(Level.SEVERE, null, ex);
             Assertions.fail("Erro: " + ex);
         }
         Assertions.assertEquals(task.getDone(), IS_DONE);
@@ -149,7 +149,7 @@ public class TarefaDAOTest {
             dao.insert(task);
             dao.removeById(1);
         } catch (SQLException ex) {
-            Logger.getLogger(TarefaDAOTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TarefaDAOTes.class.getName()).log(Level.SEVERE, null, ex);
             Assertions.fail("Erro remover");
         }
     }
@@ -165,7 +165,7 @@ public class TarefaDAOTest {
             task = dao.getById(1);
             Assertions.assertNotNull(task);
         } catch (SQLException ex) {
-            Logger.getLogger(TarefaDAOTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TarefaDAOTes.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         try {
@@ -175,7 +175,7 @@ public class TarefaDAOTest {
             task.setPrioridade(1);
             dao.update(task);
         } catch (TarefaPrioridadeException | SQLException | DateConversionException | TarefaDateException | NullPointerException ex) {
-            Logger.getLogger(TarefaDAOTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TarefaDAOTes.class.getName()).log(Level.SEVERE, null, ex);
             Assertions.fail();
         }
 
@@ -188,7 +188,7 @@ public class TarefaDAOTest {
             Assertions.assertEquals(DateConversion.calendarToDateSQL(task.getDataInicio()), DATA_INICIO);
              Assertions.assertEquals(DateConversion.calendarToDateSQL(task.getDataTermino()), "2020-01-16");
         } catch (Exception ex) {
-            Logger.getLogger(TarefaDAOTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TarefaDAOTes.class.getName()).log(Level.SEVERE, null, ex);
             Assertions.fail("Erro: " + ex);
         }
          Assertions.assertEquals(task.getDone(), true);
@@ -227,7 +227,7 @@ public class TarefaDAOTest {
             try {
                 dao.insert(tarefa);
             } catch (SQLException ex) {
-                Logger.getLogger(TarefaDAOTest.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(TarefaDAOTes.class.getName()).log(Level.SEVERE, null, ex);
                 Assertions.fail();
             }
         });
@@ -242,7 +242,7 @@ public class TarefaDAOTest {
             // pesquisa tarefa não feitas
             resultado = dao.findByTitleAndIsDone("", false);
         } catch (SQLException | TarefaDateException | DateConversionException | TarefaPrioridadeException ex) {
-            Logger.getLogger(TarefaDAOTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TarefaDAOTes.class.getName()).log(Level.SEVERE, null, ex);
             Assertions.fail();
         }
         Assertions.assertEquals(resultado.size(), 4);
@@ -259,7 +259,7 @@ public class TarefaDAOTest {
             resultado = dao.findByTitle("E");
             Assertions.assertEquals(resultado.size(), 0);
         } catch (SQLException | TarefaDateException | DateConversionException ex) {
-            Logger.getLogger(TarefaDAOTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TarefaDAOTes.class.getName()).log(Level.SEVERE, null, ex);
             Assertions.fail();
         }
 
