@@ -6,6 +6,7 @@
 package model.dao;
 
 import io.github.thiagorocha503.listadetarefa.connection.ConnectionFatory;
+import static io.github.thiagorocha503.listadetarefa.listadetarefa.ListaDeTarefa.verificaPastaData;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -40,6 +41,9 @@ public class TarefaDAOTest {
      * Apagar tabela para novos testes
      *
      */
+    public TarefaDAOTest(){
+        verificaPastaData();
+    }
     public void resetDataBase() {
         String path = ConnectionFatory.getPATH();
         //System.err.println(">> " + path);
