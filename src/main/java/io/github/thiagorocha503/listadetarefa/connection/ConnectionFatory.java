@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
 public class ConnectionFatory {
     
     private static final String ROOT = new File("").getAbsolutePath();
-    private static final String PATH = ROOT + "\\data\\dataBase.db";
+    private static final String PATH = ROOT + "/data/dataBase.db";
     private static final String PATH_SQL ="jdbc:sqlite:" + PATH;
 
     public static String getPATH() {
