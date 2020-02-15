@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/thiagorocha503/lista-de-tarefa.svg?branch=master)](https://travis-ci.org/thiagorocha503/lista-de-tarefa)
+![github action](https://github.com/thiagorocha503/lista-de-tarefa/workflows/Java%20CI/badge.svg?event=push&pull_request)
 # Lista de tarefas
 Programa prática de programação
 
