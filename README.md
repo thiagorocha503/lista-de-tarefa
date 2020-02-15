@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/thiagorocha503/lista-de-tarefa.svg?branch=master)](https://travis-ci.org/thiagorocha503/lista-de-tarefa)
 # Lista de tarefas
 Programa prática de programação
 
